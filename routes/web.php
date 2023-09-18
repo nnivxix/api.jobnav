@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApplyJobController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
@@ -113,4 +114,9 @@ Route::controller(JobController::class)->group(function () {
   Route::get('/jobs/{job:uuid}', 'show')->name('jobs.show');
   Route::get('/jobs/{job:uuid}/edit', 'edit')->name('jobs.edit');
   Route::put('/jobs/update/{job:uuid}', 'update')->name('jobs.update');
+});
+
+Route::controller(ApplyJobController::class)->group(function () {
+  Route::get('/jobs/{job:uuid}/apply', 'create')->name('apply.add');
+  Route::post('/jobs/apply', 'store')->name('apply.store');
 });

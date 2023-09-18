@@ -26,6 +26,16 @@
         @endforeach
         <h1 class="text-2xl mt-6 font-bold"></h1>
         <p class="text-lg text-justify pr-5">{{$job['description']}}</p>
+        <div class="my-4">
+            @if(count($applied) == 0 && $job->company->ownedby != auth()->user()->id)
+            <a href="/jobs/{{$job['uuid']}}/apply" class="bg-carrot-600 text-white p-3">Apply Now</a>
+            @elseif ($job->company->ownedby == auth()->user()->id)
+            <p class="p-2 bg-carrot-600 text-white">You cannot applied to your own job post</p>
+
+            @else
+            <p class="p-2 bg-carrot-600 text-white">You have applied</p>
+            @endif
+        </div>
     </div>
     <div class="col-span-2">
         <h1 class="text-xl font-medium  text-smoke-700 py-3">Field Job in <span class="font-bold"> {{$job->company->name}}</span></h1>

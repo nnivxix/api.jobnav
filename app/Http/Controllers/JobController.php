@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Company;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class JobController extends Controller
 {
@@ -58,9 +59,16 @@ class JobController extends Controller
             ->where('company_id', $job->company->id)
             ->whereNot('uuid', $job->uuid)
             ->get();
+
+        $applied = DB::table('apply_jobs')
+            ->where('job_uuid', $job->uuid)
+            ->where('user_id', auth()->user()->id)
+            ->get();
+
         return view('jobs.show', [
-            'job' => $job,
+            'job'          => $job,
             'company_jobs' => $company_jobs,
+            'applied'      => $applied,
         ]);
     }
 
