@@ -10,9 +10,9 @@ return new class extends Migration
     {
         Schema::create('apply_jobs', function (Blueprint $table) {
             $table->id();
-            $table->foreignUuid('job_uuid');
-            $table->foreignId('user_id');
-            $table->longText('letter');
+            $table->foreignId('job_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->longText('cover_letter');
             $table->string('attachment');
             $table->timestamps();
         });

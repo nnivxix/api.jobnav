@@ -15,9 +15,10 @@ return new class extends Migration
     {
         Schema::create('experiences', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('title');
             $table->string('company_name');
+            $table->string('logo')->nullable();
             $table->boolean('still_work')->default(false);
             $table->string('location');
             $table->text('description')->nullable();

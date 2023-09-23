@@ -16,12 +16,13 @@ return new class extends Migration
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
             $table->uuid();
-            $table->string('company_id');
+            $table->foreignId('company_id')->constrained()->onDelete('cascade');
             $table->string('title');
             $table->string('position');
             $table->string('location');
             $table->integer('salary');
             $table->longText('description');
+            $table->string('categories');
             $table->date('posted_at');
             $table->timestamps();
         });

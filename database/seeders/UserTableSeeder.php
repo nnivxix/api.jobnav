@@ -34,6 +34,6 @@ class UserTableSeeder extends Seeder
     ]);
     User::factory()
       ->has(Profile::factory())
-      ->count(19)->create();
+      ->count(9)->create();
   }
 }

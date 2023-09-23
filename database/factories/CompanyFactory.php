@@ -11,12 +11,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class CompanyFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    protected $model = Company::class;
+
     public function definition()
     {
         return [
@@ -25,7 +20,7 @@ class CompanyFactory extends Factory
             'avatar'       => UploadedFile::fake()->image('thumbnail' . time() . '.jpg', 400, 400)->store('company/avatars', 'public'),
             'image_cover'  => UploadedFile::fake()->image('thumbnail' . time() . '.jpg', 800, 300)->store('company/covers', 'public'),
             'about'        => $this->faker->sentence(200),
-            'ownedby'      => random_int(1, 20),
+            'owned_by'      => random_int(1, 10),
             'location'     => $this->faker->country(),
             'full_address' => $this->faker->address(),
             'website'      => $this->faker->url(),

@@ -19,7 +19,6 @@ class DatabaseSeeder extends Seeder
       CompaniesTableSeeder::class,
       ExperiencesSeeder::class,
       JobSeeder::class,
-      TypeJobSeeder::class,
     ]);
   }
 }
