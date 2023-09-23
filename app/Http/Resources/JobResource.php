@@ -18,10 +18,12 @@ class JobResource extends JsonResource
             'uuid'        => $this->uuid,
             "company_id"  => $this->company_id,
             "title"       => $this->title,
+            "posted_at"   => $this->posted_at,
             "position"    => $this->position,
             "location"    => $this->location,
             "salary"      => $this->salary,
-            "description" => $this->description
+            "description" => $this->description,
+            "company"     => $this->company, // make resource company
         ];
     }
 }

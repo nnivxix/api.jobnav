@@ -22,6 +22,7 @@ use App\Http\Controllers\LoginController;
 
 Route::post('/login', [AuthController::class, 'store']);
 Route::post('/register', [RegisterUserController::class, 'store']);
+
 Route::get('/jobs', [JobController::class, 'index']);
 
 Route::middleware('auth:sanctum',)->group(function () {
