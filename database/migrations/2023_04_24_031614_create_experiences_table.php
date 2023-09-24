@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('title');
             $table->string('company_name');
             $table->string('logo')->nullable();
-            $table->boolean('still_work')->default(false);
             $table->string('location');
             $table->text('description')->nullable();
             $table->date('started')->nullable();

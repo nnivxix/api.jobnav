@@ -15,15 +15,16 @@ class ExperienceResource extends JsonResource
     public function toArray($request)
     {
         return [
-            "id"           => $this->id,
-            "title"        => $this->title,
-            "company_name" => $this->company_name,
-            "logo_url"     => $this->logo_url,
-            "still_work"   => $this->still_work,
-            "location"     => $this->location,
-            "description"  => $this->description,
-            "started"      => $this->started,
-            "ended"        => $this->ended,
+            "uuid"          => $this->uuid,
+            "title"         => $this->title,
+            "company_name"  => $this->company_name,
+            "logo_url"      => $this->logo_url,
+            "still_working" => $this->still_working,
+            "location"      => $this->location,
+            "description"   => $this->description,
+            "started"       => $this->started,
+            "ended_status"  => $this->ended_status,
+            "time_span"     => $this->time_span,
         ];
     }
 }
