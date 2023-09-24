@@ -13,10 +13,10 @@ class UserResource extends JsonResource
             'name'        => $this->name,
             'username'    => $this->username,
             'header'      => $this->profile?->header,
-            'avatar'      => $this->profile?->avatar,
-            'cover'       => $this->profile?->cover,
+            'avatar'      => $this->profile?->avatar_url,
+            'cover'       => $this->profile?->cover_url,
             'user_skills' => $this->profile?->user_skills,
-            'experiences' => ExperienceResource::collection($this->experiences),
+            'experiences' => ExperienceResource::collection($this->whenLoaded('experiences')),
         ];
     }
 }

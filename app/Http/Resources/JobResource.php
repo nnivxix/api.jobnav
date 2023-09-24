@@ -23,7 +23,7 @@ class JobResource extends JsonResource
             "location"    => $this->location,
             "salary"      => $this->salary,
             "description" => $this->description,
-            "company"     => $this->company, // make resource company
+            "company"     => CompanyResource::make($this->company), // make resource company
         ];
     }
 }

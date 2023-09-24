@@ -21,8 +21,8 @@ class Company extends Model
         return $this->hasMany(Job::class);
     }
 
-    public function user()
+    public function owner()
     {
-        return $this->belongsTo(User::class, 'owner_by', 'id');
+        return $this->belongsTo(User::class, 'owned_by', 'id');
     }
 }
