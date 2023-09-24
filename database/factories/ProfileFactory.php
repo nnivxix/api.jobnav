@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -15,9 +16,9 @@ class ProfileFactory extends Factory
     {
         return [
             'user_id' => fn () => User::factory()->create()->id,
-            'header'  => fake()->paragraph(),
-            'avatar'  => fake()->imageUrl(640, 640, 'people'),
-            'cover'   => fake()->sentence(),
+            'bio'     => fake()->paragraph(),
+            'avatar'  => UploadedFile::fake()->image('thumbnail' . time() . '.jpg', 400, 400)->store('users/avatars', 'public'),
+            'cover'   => UploadedFile::fake()->image('thumbnail' . time() . '.jpg', 800, 300)->store('users/covers', 'public'),
             'skills'  => null,
         ];
     }

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug')->unique();
             $table->string('avatar')->nullable();
-            $table->string('image_cover')->nullable();
+            $table->string('cover')->nullable();
             $table->text('about')->nullable();
             $table->foreignId('owned_by')->references('id')->on('users')->nullable();
             $table->string('location')->nullable();

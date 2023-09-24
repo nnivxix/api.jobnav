@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use App\Models\Profile;
 use Illuminate\Database\Seeder;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class UserTableSeeder extends Seeder
@@ -27,9 +28,9 @@ class UserTableSeeder extends Seeder
 
     $hanasa->flag('admin');
     $hanasa->profile()->create([
-      'header' => fake()->paragraph(),
-      'avatar' => fake()->imageUrl(640, 640, 'people'),
-      'cover' => fake()->sentence(),
+      'bio'    => fake()->paragraph(),
+      'avatar' => UploadedFile::fake()->image('avatar' . time() . '.jpg', 400, 400)->store('users/avatars', 'public'),
+      'cover'  => UploadedFile::fake()->image('cover' . time() . '.jpg', 800, 300)->store('users/covers', 'public'),
       'skills' => null,
     ]);
     User::factory()

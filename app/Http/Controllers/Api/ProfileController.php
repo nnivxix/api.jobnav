@@ -25,8 +25,8 @@ class ProfileController extends Controller
         $user = auth()->user();
 
         $profileInfo = [
-            'header'   => $request->header,
-            'skills'   => $request->skills,
+            'bio'    => $request->bio,
+            'skills' => $request->skills,
         ];
         $userInfo = [
             'name'     => $request->name,
@@ -42,8 +42,8 @@ class ProfileController extends Controller
                 Storage::delete('public/' . $user->profile->avatar);
             }
 
-            $avatar->storePubliclyAs('avatars', $avatar_file_name, 'public');
-            $profileInfo['avatar'] = 'avatars/' . $avatar_file_name;
+            $avatar->storePubliclyAs('users/avatars', $avatar_file_name, 'public');
+            $profileInfo['avatar'] = 'users/avatars/' . $avatar_file_name;
         }
 
         $cover = $request->file('cover');
@@ -55,8 +55,8 @@ class ProfileController extends Controller
                 Storage::delete('public/' . $user->profile->cover);
             }
 
-            $cover->storePubliclyAs('covers', $cover_file_name, 'public');
-            $profileInfo['cover'] = 'covers/' . $cover_file_name;
+            $cover->storePubliclyAs('users/covers', $cover_file_name, 'public');
+            $profileInfo['cover'] = 'users/covers/' . $cover_file_name;
         }
 
 
