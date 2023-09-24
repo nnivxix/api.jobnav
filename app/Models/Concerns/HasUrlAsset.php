@@ -19,4 +19,10 @@ trait HasUrlAsset
             get: fn () => asset(Storage::url($this->cover))
         );
     }
+    public function logoUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => asset(Storage::url($this->logo))
+        );
+    }
 }

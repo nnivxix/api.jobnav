@@ -18,7 +18,7 @@ class ExperienceResource extends JsonResource
             "id"           => $this->id,
             "title"        => $this->title,
             "company_name" => $this->company_name,
-            "logo"         => $this->logo,
+            "logo_url"     => $this->logo_url,
             "still_work"   => $this->still_work,
             "location"     => $this->location,
             "description"  => $this->description,
