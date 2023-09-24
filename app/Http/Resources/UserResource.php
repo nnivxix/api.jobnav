@@ -6,12 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
-     */
+
     public function toArray($request)
     {
         return [
@@ -21,6 +16,7 @@ class UserResource extends JsonResource
             'avatar'      => $this->profile?->avatar,
             'cover'       => $this->profile?->cover,
             'user_skills' => $this->profile?->user_skills,
+            'experiences' => ExperienceResource::collection($this->experiences),
         ];
     }
 }

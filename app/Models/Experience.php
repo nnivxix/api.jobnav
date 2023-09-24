@@ -9,9 +9,10 @@ class Experience extends Model
 {
     use HasFactory;
 
-    protected $cast = [
+    protected $casts = [
         'started' => 'date',
         'ended'   => 'date',
+        'still_work' => 'boolean'
     ];
     protected $guarded = [
         'id',
