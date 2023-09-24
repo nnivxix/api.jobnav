@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Concerns\HasApplyJobs;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Job extends Model
 {
     use HasFactory;
+    use HasApplyJobs;
+
     protected $cast = [
         'posted_at' => 'date'
     ];
