@@ -4,10 +4,10 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\JobController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\RegisterUserController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\LoginController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +25,8 @@ Route::post('/login', [AuthController::class, 'store']);
 Route::post('/register', [RegisterUserController::class, 'store']);
 
 Route::get('/jobs', [JobController::class, 'index']);
+
+Route::get('/users/{user}', [UserController::class, 'show']);
 
 Route::middleware('auth:sanctum',)->group(function () {
     Route::post('/logout', [AuthController::class, 'destroy']);
