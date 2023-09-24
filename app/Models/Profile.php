@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasUrlAsset;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Profile extends Model
 {
     use HasFactory;
+    use HasUrlAsset;
 
     public function userSkills(): Attribute
     {
@@ -22,17 +24,4 @@ class Profile extends Model
     /**
      * Accessors
      */
-
-    public function avatarUrl(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => asset(Storage::url($this->avatar))
-        );
-    }
-    public function coverUrl(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => asset(Storage::url($this->cover))
-        );
-    }
 }
