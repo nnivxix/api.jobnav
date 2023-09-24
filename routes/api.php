@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\JobController;
+use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\RegisterUserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,4 +28,6 @@ Route::get('/jobs', [JobController::class, 'index']);
 
 Route::middleware('auth:sanctum',)->group(function () {
     Route::post('/logout', [AuthController::class, 'destroy']);
+
+    Route::put('/profile', [ProfileController::class, 'update']);
 });
