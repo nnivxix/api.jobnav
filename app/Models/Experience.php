@@ -12,8 +12,8 @@ class Experience extends Model
     use HasUrlAsset;
 
     protected $casts = [
-        'started' => 'date',
-        'ended'   => 'date',
+        'started'    => 'date',
+        'ended'      => 'date',
         'still_work' => 'boolean'
     ];
     protected $guarded = [
