@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
@@ -64,7 +65,7 @@ class ProfileController extends Controller
 
         return response()->json([
             'data' => [
-                'user' => $user
+                'user' => UserResource::make($user)
             ],
             'message' => 'Profile updated successfully.'
         ]);
