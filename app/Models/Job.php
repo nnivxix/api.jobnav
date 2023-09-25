@@ -19,6 +19,11 @@ class Job extends Model
         'id',
     ];
 
+    public function getRouteKeyName()
+    {
+        return 'uuid';
+    }
+
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);

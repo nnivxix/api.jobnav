@@ -30,4 +30,9 @@ class JobController extends Controller
 
         return JobResource::collection($jobs);
     }
+
+    public function show(Job $job)
+    {
+        return JobResource::make($job);
+    }
 }
