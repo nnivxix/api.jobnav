@@ -34,7 +34,7 @@ class User extends Authenticatable
 
     public function companies(): HasMany
     {
-        return $this->hasMany(Company::class);
+        return $this->hasMany(Company::class, 'owned_by', 'id');
     }
     public function experiences(): HasMany
     {
@@ -43,6 +43,10 @@ class User extends Authenticatable
     public function jobs()
     {
         return $this->belongsToMany(Job::class, 'apply_jobs')->withTimestamps();
+    }
+    public function jobPosts()
+    {
+        return $this->hasManyThrough(Job::class, Company::class, 'owned_by', 'company_id');
     }
 
     public function getRouteKeyName()

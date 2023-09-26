@@ -22,8 +22,8 @@ return new class extends Migration
             $table->string('location');
             $table->integer('salary');
             $table->longText('description');
-            $table->string('categories');
-            $table->date('posted_at');
+            $table->string('categories')->nullable();
+            $table->date('posted_at')->nullable();
             $table->timestamps();
         });
     }

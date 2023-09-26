@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\ApplyJobController;
+use App\Http\Controllers\Api\PersonalJobController;
 use App\Http\Controllers\Api\RegisterUserController;
 
 
@@ -21,19 +22,22 @@ use App\Http\Controllers\Api\RegisterUserController;
 |
 */
 
-
-Route::post('/login', [AuthController::class, 'store']);
-Route::post('/register', [RegisterUserController::class, 'store']);
-
-Route::get('/users/{user}', [UserController::class, 'show']);
-
-Route::get('/jobs', [JobController::class, 'index']);
-Route::get('/jobs/{job}', [JobController::class, 'show']);
-
 Route::middleware('auth:sanctum',)->group(function () {
+    Route::get('/users/posts', [PersonalJobController::class, 'index']);
+    Route::post('/users/posts', [PersonalJobController::class, 'store']);
     Route::get('/users', [AuthController::class, 'index']);
     Route::post('/logout', [AuthController::class, 'destroy']);
     Route::put('/users', [AuthController::class, 'update']);
 
+
     Route::post('/jobs/{job}/apply', [ApplyJobController::class, 'store']);
 });
+
+Route::post('/login', [AuthController::class, 'store']);
+Route::post('/register', [RegisterUserController::class, 'store']);
+
+
+Route::get('/jobs', [JobController::class, 'index']);
+Route::get('/jobs/{job}', [JobController::class, 'show']);
+
+Route::get('/users/{user}', [UserController::class, 'show']);
