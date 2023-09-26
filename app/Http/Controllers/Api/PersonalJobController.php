@@ -43,6 +43,7 @@ class PersonalJobController extends Controller
 
         return response()->json([
             'meesage' => 'job created',
+            'uuid'    => $post->uuid
         ], 201);
     }
 
@@ -80,8 +81,25 @@ class PersonalJobController extends Controller
         ], 200);
     }
 
-    public function destroy($id)
+    public function destroy(Job $job)
     {
-        // edit database to cascade on delete
+
+        $isCompanyOwnedByUser = $job
+            ->company
+            ->where('owned_by', auth()->user()->id)
+            ->get();
+
+        abort_if(
+            $isCompanyOwnedByUser->count() == 0,
+            response()->json([
+                'message' => 'Forbidden'
+            ], 403)
+        );
+
+        $job->delete();
+
+        return response()->json([
+            'message' => 'Job deleted'
+        ], 200);
     }
 }
