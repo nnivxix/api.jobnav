@@ -17,7 +17,9 @@ class ApplyJobController extends Controller
             'attachment'   => 'required|file|max:2000|mimes:pdf'
         ]);
 
-        abort_if($job->isAppliedByUser, 403);
+        abort_if($job->isAppliedByUser, response()->json([
+            'message' => 'Forbidden'
+        ], 403));
 
         $attachment = $request->file('attachment');
         if ($attachment) {
