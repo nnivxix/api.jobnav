@@ -4,10 +4,19 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\AuthenticatedUserResource;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+    public function index()
+    {
+        $user = auth()
+            ->user()
+            ->load('experiences');
+
+        return AuthenticatedUserResource::make($user);
+    }
     public function store(Request $request)
     {
         $credential = $request->validate([

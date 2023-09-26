@@ -25,13 +25,15 @@ use App\Http\Controllers\Api\RegisterUserController;
 Route::post('/login', [AuthController::class, 'store']);
 Route::post('/register', [RegisterUserController::class, 'store']);
 
-
 Route::get('/users/{user}', [UserController::class, 'show']);
+
 Route::get('/jobs', [JobController::class, 'index']);
 Route::get('/jobs/{job}', [JobController::class, 'show']);
 
 Route::middleware('auth:sanctum',)->group(function () {
     Route::post('/logout', [AuthController::class, 'destroy']);
+    Route::get('/me', [AuthController::class, 'index']);
+
     Route::post('/jobs/{job}/apply', [ApplyJobController::class, 'store']);
 
     Route::put('/profile', [ProfileController::class, 'update']);

@@ -40,6 +40,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Experience::class);
     }
+    public function jobs()
+    {
+        return $this->belongsToMany(Job::class, 'apply_jobs')->withTimestamps();
+    }
 
     public function getRouteKeyName()
     {

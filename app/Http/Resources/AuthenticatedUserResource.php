@@ -14,6 +14,16 @@ class AuthenticatedUserResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'email'       => $this->email,
+            'name'        => $this->name,
+            'username'    => $this->username,
+            'bio'         => $this->profile?->bio,
+            'avatar'      => $this->profile?->avatar_url,
+            'cover'       => $this->profile?->cover_url,
+            'user_skills' => $this->profile?->user_skills,
+            'experiences' => ExperienceResource::collection($this->whenLoaded('experiences')),
+            'jobs'        => JobResource::collection($this->jobs),
+        ];
     }
 }
