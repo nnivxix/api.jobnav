@@ -23,7 +23,7 @@ class AuthenticatedUserResource extends JsonResource
             'cover'       => $this->profile?->cover_url,
             'user_skills' => $this->profile?->user_skills,
             'experiences' => ExperienceResource::collection($this->whenLoaded('experiences')),
-            'jobs'        => JobResource::collection($this->jobs),
+            'jobs'        => JobResource::collection($this->whenLoaded('jobs')),
         ];
     }
 }

@@ -31,10 +31,9 @@ Route::get('/jobs', [JobController::class, 'index']);
 Route::get('/jobs/{job}', [JobController::class, 'show']);
 
 Route::middleware('auth:sanctum',)->group(function () {
+    Route::get('/users', [AuthController::class, 'index']);
     Route::post('/logout', [AuthController::class, 'destroy']);
-    Route::get('/me', [AuthController::class, 'index']);
+    Route::put('/users', [AuthController::class, 'update']);
 
     Route::post('/jobs/{job}/apply', [ApplyJobController::class, 'store']);
-
-    Route::put('/profile', [ProfileController::class, 'update']);
 });
