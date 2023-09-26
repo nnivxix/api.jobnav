@@ -73,9 +73,31 @@ class PersonalJobController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $uuid)
     {
-        //
+        $job = $request->validate([
+            'title'       => 'required',
+            'description' => 'required',
+            'location'    => 'required',
+            'position'    => 'required',
+            'salary'      => 'numeric',
+            'categories'  => 'string',
+        ]);
+
+        $job['posted_at'] = $request->posted_at;
+        $job['company_id'] = $request->company_id;
+
+        $checkCompaniesIsOwned = auth()->user()->companies->where('id', $request->company_id)->count() === 0;
+
+        abort_if($checkCompaniesIsOwned, response()->json([
+            'message' => 'Forbidden'
+        ], 403));
+
+        Job::where('uuid', $uuid)->update($job);
+
+        return response()->json([
+            'meesage' => 'Job updated',
+        ], 200);
     }
 
     /**
