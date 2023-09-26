@@ -26,6 +26,7 @@ Route::middleware('auth:sanctum',)->group(function () {
     Route::get('/users/posts', [PersonalJobController::class, 'index']);
     Route::post('/users/posts', [PersonalJobController::class, 'store']);
     Route::put('/users/posts/{uuid}', [PersonalJobController::class, 'update']);
+    Route::get('/users/posts/{job}', [PersonalJobController::class, 'show']);
 
     Route::get('/users', [AuthController::class, 'index']);
     Route::post('/logout', [AuthController::class, 'destroy']);
