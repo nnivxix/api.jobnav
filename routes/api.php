@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\ApplyJobController;
+use App\Http\Controllers\Api\PersonalCompanyController;
 use App\Http\Controllers\Api\PersonalJobController;
 use App\Http\Controllers\Api\RegisterUserController;
 
@@ -28,6 +29,12 @@ Route::middleware('auth:sanctum',)->group(function () {
     Route::put('/users/posts/{uuid}', [PersonalJobController::class, 'update']);
     Route::get('/users/posts/{job}', [PersonalJobController::class, 'show']);
     Route::delete('/users/posts/{job}', [PersonalJobController::class, 'destroy']);
+
+    Route::get('/personal-companies', [PersonalCompanyController::class, 'index']);
+    Route::post('/personal-companies', [PersonalCompanyController::class, 'store']);
+    Route::get('/personal-companies/{company}', [PersonalCompanyController::class, 'show']);
+    Route::put('/personal-companies/{company}', [PersonalCompanyController::class, 'update']);
+    Route::delete('/personal-companies/{company}', [PersonalCompanyController::class, 'destroy']);
 
     Route::get('/users', [AuthController::class, 'index']);
     Route::post('/logout', [AuthController::class, 'destroy']);

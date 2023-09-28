@@ -19,6 +19,11 @@ class Company extends Model
         'id',
     ];
 
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     public function jobs(): HasMany
     {
         return $this->hasMany(Job::class);

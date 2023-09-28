@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CompanyResource extends JsonResource
+class PersonalCompanyResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,17 +14,16 @@ class CompanyResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+        return  [
             "name"         => $this->name,
             "slug"         => $this->slug,
-            "avatar"       => $this->avatar,
-            "cover"        => $this->cover,
-            "owner"        => UserResource::make($this->owner),
+            "avatar_url"       => $this->avatar_url,
+            "cover_url"        => $this->cover_url,
             "about"        => $this->about,
             "location"     => $this->location,
             "full_address" => $this->full_address,
             "website"      => $this->website,
             "posted_at"    => $this->posted_at,
-        ];
+        ];;
     }
 }

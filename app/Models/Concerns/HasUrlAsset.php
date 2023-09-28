@@ -10,19 +10,19 @@ trait HasUrlAsset
     public function avatarUrl(): Attribute
     {
         return Attribute::make(
-            get: fn () => asset(Storage::url($this->avatar))
+            get: fn () => $this->avatar ? asset(Storage::url($this->avatar)) : null
         );
     }
     public function coverUrl(): Attribute
     {
         return Attribute::make(
-            get: fn () => asset(Storage::url($this->cover))
+            get: fn () => $this->cover ? asset(Storage::url($this->cover)) : null
         );
     }
     public function logoUrl(): Attribute
     {
         return Attribute::make(
-            get: fn () => asset(Storage::url($this->logo))
+            get: fn () => $this->logo ? asset(Storage::url($this->logo)) : null
         );
     }
 }
