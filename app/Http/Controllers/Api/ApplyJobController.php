@@ -25,7 +25,7 @@ class ApplyJobController extends Controller
         if ($attachment) {
             $attachment_name = Str::random(20) . "." . $attachment->getClientOriginalExtension();
             $attachment->storePubliclyAs('jobs/apply/', $attachment_name, 'public');
-            $validate['attachment'] = 'job/apply/' . $attachment_name;
+            $validate['attachment'] = 'jobs/apply/' . $attachment_name;
         }
 
         $validate['job_id'] = $job->id;
