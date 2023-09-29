@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Mail\ConfirmRegisteredUser;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 
 class RegisterUserController extends Controller
 {
@@ -22,16 +25,35 @@ class RegisterUserController extends Controller
         $user = User::create($userInfo);
 
         $user->profile()->create([
-            'header' => null,
+            'bio'    => null,
             'avatar' => null,
             'cover'  => null,
             'skills' => null,
         ]);
 
+        $signedUrl = URL::signedRoute('register-user.verify', [
+            'user' => $user
+        ]);
+
+        Mail::to($user->email)->send(new ConfirmRegisteredUser($signedUrl));
+
         return response()->json([
             'user'    => $user,
-            'token'   => $user->createToken('user-token')->plainTextToken,
+            // 'token'   => $user->createToken('user-token')->plainTextToken,
             'message' => 'user created'
         ], 201);
+    }
+
+    public function verify(Request $request, User $user)
+    {
+        abort_if(!$request->hasValidSignature(), 403);
+
+        $user->update([
+            'email_verified_at' => now()
+        ]);
+
+        return response()->json([
+            'message' => 'should be redirect'
+        ]);
     }
 }
