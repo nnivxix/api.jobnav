@@ -7,9 +7,10 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\ApplyJobController;
-use App\Http\Controllers\Api\PersonalCompanyController;
 use App\Http\Controllers\Api\PersonalJobController;
 use App\Http\Controllers\Api\RegisterUserController;
+use App\Http\Controllers\Api\PersonalCompanyController;
+use App\Http\Controllers\Api\PersonalJobUserController;
 
 
 /*
@@ -29,6 +30,9 @@ Route::middleware('auth:sanctum',)->group(function () {
     Route::put('/personal-jobs/{uuid}', [PersonalJobController::class, 'update']);
     Route::get('/personal-jobs/{job}', [PersonalJobController::class, 'show']);
     Route::delete('/personal-jobs/{job}', [PersonalJobController::class, 'destroy']);
+    
+    Route::get('/personal-jobs/{job}/user', [PersonalJobUserController::class, 'show']);
+    Route::put('/personal-jobs/{job}/user', [PersonalJobUserController::class, 'update']);
 
     Route::get('/personal-companies', [PersonalCompanyController::class, 'index']);
     Route::post('/personal-companies', [PersonalCompanyController::class, 'store']);
