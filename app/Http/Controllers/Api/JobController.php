@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\JobResource;
-use App\Models\ApplyJob;
 use App\Models\Job;
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\ApplyJob;
 use Illuminate\Http\Request;
+use Illuminate\Support\Benchmark;
+use App\Http\Resources\JobResource;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\ApplyJobResource;
+use Illuminate\Database\Eloquent\Builder;
 
 class JobController extends Controller
 {
@@ -28,6 +30,10 @@ class JobController extends Controller
             })
             ->orderBy('posted_at', 'desc')
             ->paginate($per_page);
+            
+            // Benchmark::dd([
+            //     fn() => $jobs
+            // ]);
 
         return JobResource::collection($jobs);
     }
@@ -42,10 +48,15 @@ class JobController extends Controller
             ->where('user_id', auth('sanctum')->user()->id)
             ->first(); 
         }
-        
+
+        // Benchmark::dd([
+        //     fn() => $job,
+        //     fn() => $applyJob,
+        //   ], 3);
+
         return JobResource::make($job)
         ->additional([
-            'job_status' => $applyJob
+            'job_status' => ApplyJobResource::make($applyJob)
         ]);
     }
 }

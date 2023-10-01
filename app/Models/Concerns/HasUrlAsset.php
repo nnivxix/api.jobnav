@@ -25,4 +25,10 @@ trait HasUrlAsset
             get: fn () => $this->logo ? asset(Storage::url($this->logo)) : null
         );
     }
+    public function attachmentUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->attachment ? asset(Storage::url($this->attachment)) : null
+        );
+    }
 }
