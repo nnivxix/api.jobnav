@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum StatusJobType: string
+enum StatusJobEnum: string
  {
     case Pending = 'pending';
     case Selection = 'selection';

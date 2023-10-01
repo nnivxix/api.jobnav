@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\StatusJobType;
+use App\Enums\StatusJobEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,6 +11,6 @@ class ApplyJob extends Model
     use HasFactory;
 
     protected $casts = [
-        'status' => StatusJobType::class,
+        'status' => StatusJobEnum::class,
     ];
 }
