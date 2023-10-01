@@ -42,4 +42,11 @@ class Job extends Model
     {
         return $this->belongsTo(Company::class);
     }
+
+    public function applyJobForCurrentUser()
+    {
+        return $this->hasOne(ApplyJob::class, 'job_id', 'id')
+        ->where('job_id', $this->id)
+            ->where('user_id', auth('sanctum')->user()->id ?? null);
+    }
 }

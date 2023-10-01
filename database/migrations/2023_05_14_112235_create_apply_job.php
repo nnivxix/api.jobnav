@@ -14,6 +14,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->longText('cover_letter');
             $table->string('attachment');
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

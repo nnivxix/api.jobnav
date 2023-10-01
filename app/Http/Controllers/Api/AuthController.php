@@ -67,6 +67,10 @@ class AuthController extends Controller
 
         $user = auth()->user();
 
+        if($request->password) {
+            // change password
+        }
+
         $profileInfo = [
             'bio'    => $request->bio,
             'skills' => $request->skills,

@@ -23,6 +23,7 @@ class JobResource extends JsonResource
             "location"           => $this->location,
             "salary"             => $this->salary,
             'is_applied_by_user' => $this->is_applied_by_user,
+            'status'             => $this->applyJobForCurrentUser->status ?? null,
             "description"        => $this->description,
             "company"            => CompanyResource::make($this->company),   // make resource company
         ];
