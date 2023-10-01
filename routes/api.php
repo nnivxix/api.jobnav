@@ -24,11 +24,11 @@ use App\Http\Controllers\Api\RegisterUserController;
 */
 
 Route::middleware('auth:sanctum',)->group(function () {
-    Route::get('/users/posts', [PersonalJobController::class, 'index']);
-    Route::post('/users/posts', [PersonalJobController::class, 'store']);
-    Route::put('/users/posts/{uuid}', [PersonalJobController::class, 'update']);
-    Route::get('/users/posts/{job}', [PersonalJobController::class, 'show']);
-    Route::delete('/users/posts/{job}', [PersonalJobController::class, 'destroy']);
+    Route::get('/personal-jobs', [PersonalJobController::class, 'index']);
+    Route::post('/personal-jobs', [PersonalJobController::class, 'store']);
+    Route::put('/personal-jobs/{uuid}', [PersonalJobController::class, 'update']);
+    Route::get('/personal-jobs/{job}', [PersonalJobController::class, 'show']);
+    Route::delete('/personal-jobs/{job}', [PersonalJobController::class, 'destroy']);
 
     Route::get('/personal-companies', [PersonalCompanyController::class, 'index']);
     Route::post('/personal-companies', [PersonalCompanyController::class, 'store']);
