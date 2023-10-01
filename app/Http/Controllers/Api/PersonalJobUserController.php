@@ -41,7 +41,7 @@ class PersonalJobUserController extends Controller
              fn() => $applicant,
             ]);
         */
-        
+
         return response()->json([
             'user'     => AuthenticatedUserResource::make($user),
             'job'      =>  JobResource::make($job),
@@ -66,9 +66,17 @@ class PersonalJobUserController extends Controller
         ->where('job_id', $job->id)
         ->where('user_id', $id )
         ->first();
+
+        if ($validated['status'] == 'approved') {
+            // do send email to user
+            // dd($applicant->user->email);
+        }
         
         $applicant->update($validated);
 
-        return ApplyJobResource::make($applicant);
+        return ApplyJobResource::make($applicant)
+        ->additional([
+            'message' => 'applicant updated!'
+        ]);
     }
 }
