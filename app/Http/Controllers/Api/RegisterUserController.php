@@ -30,15 +30,17 @@ class RegisterUserController extends Controller
             'cover'  => null,
             'skills' => null,
         ]);
-
-        $signedUrl = URL::signedRoute('register-user.verify', [
-            'user' => $user
-        ]);
-
-        Mail::to($user->email)->send(new ConfirmRegisteredUser($signedUrl));
+        /** Skip this
+         * 
+         $signedUrl = URL::signedRoute('register-user.verify', [
+             'user' => $user
+            ]);
+            
+            Mail::to($user->email)->send(new ConfirmRegisteredUser($signedUrl));
+         */
 
         return response()->json([
-            'user'    => $user,
+            // 'user'    => $user,
             // 'token'   => $user->createToken('user-token')->plainTextToken,
             'message' => 'user created'
         ], 201);

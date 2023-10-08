@@ -54,7 +54,7 @@ Route::middleware('auth:sanctum',)->group(function () {
 
 Route::post('/login', [AuthController::class, 'store']);
 
-Route::post('/register', [RegisterUserController::class, 'store']);
+Route::post('/register', [RegisterUserController::class, 'store'])->name('user.register');
 Route::get('/verify/{user}', [RegisterUserController::class, 'verify'])->name('register-user.verify');
 
 
