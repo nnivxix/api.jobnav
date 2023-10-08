@@ -45,18 +45,19 @@ Route::middleware('auth:sanctum',)->group(function () {
     Route::put('/personal-companies/{company}', [PersonalCompanyController::class, 'update']);
     Route::delete('/personal-companies/{company}', [PersonalCompanyController::class, 'destroy']);
 
-    Route::get('/users', [AuthController::class, 'index']);
-    Route::post('/logout', [AuthController::class, 'destroy']);
+    Route::get('/users', [AuthController::class, 'index'])->name('user.current');
     Route::put('/users', [AuthController::class, 'update']);
+    Route::post('/logout', [AuthController::class, 'destroy']);
 
 
     Route::post('/jobs/{job}/apply', [ApplyJobController::class, 'store']);
 });
 
-Route::post('/login', [LoginController::class, 'store'])->name('user.login');
-
-Route::post('/register', [RegisterUserController::class, 'store'])->name('user.register');
-Route::get('/verify/{user}', [RegisterUserController::class, 'verify'])->name('register-user.verify');
+Route::middleware('unauthenticate')->group(function () {
+    Route::post('/login', [LoginController::class, 'store'])->name('user.login');
+    Route::post('/register', [RegisterUserController::class, 'store'])->name('user.register');
+    Route::get('/verify/{user}', [RegisterUserController::class, 'verify'])->name('register-user.verify');
+});
 
 
 Route::get('/jobs', [JobController::class, 'index']);
