@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\ApplyJobController;
+use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\PersonalApplyJobController;
 use App\Http\Controllers\Api\PersonalJobController;
 use App\Http\Controllers\Api\RegisterUserController;
@@ -52,7 +53,7 @@ Route::middleware('auth:sanctum',)->group(function () {
     Route::post('/jobs/{job}/apply', [ApplyJobController::class, 'store']);
 });
 
-Route::post('/login', [AuthController::class, 'store']);
+Route::post('/login', [LoginController::class, 'store'])->name('user.login');
 
 Route::post('/register', [RegisterUserController::class, 'store'])->name('user.register');
 Route::get('/verify/{user}', [RegisterUserController::class, 'verify'])->name('register-user.verify');

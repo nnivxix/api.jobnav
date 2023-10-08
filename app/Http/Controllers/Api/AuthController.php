@@ -20,38 +20,6 @@ class AuthController extends Controller
 
         return AuthenticatedUserResource::make($user);
     }
-    public function store(Request $request)
-    {
-        $credential = $request->validate([
-            'email'    => 'required|email',
-            'password' => 'required'
-        ]);
-
-        $authenticahed = Auth::attempt($credential);
-
-        if (!$authenticahed) {
-            return response()->json([
-                'data' => [
-                    'user'  => null,
-                    'token' => null,
-                ],
-                'messsage' => 'failed'
-            ]);
-        }
-
-        $user = $request->user();
-        $token = $request->user()
-            ->createToken('user-token', ['*'], now()->addHours(5))
-            ->plainTextToken;
-
-        return response()->json([
-            'data' => [
-                'user'  => $user,
-                'token' => $token
-            ],
-            'message' => 'success'
-        ]);
-    }
 
     public function update(Request $request)
     {
@@ -67,7 +35,7 @@ class AuthController extends Controller
 
         $user = auth()->user();
 
-        if($request->password) {
+        if ($request->password) {
             // change password
         }
 
@@ -114,7 +82,6 @@ class AuthController extends Controller
         return AuthenticatedUserResource::make($user)
             ->additional([
                 'message' => 'Profile updated successfully.'
-
             ]);
     }
     public function destroy(Request $request)
