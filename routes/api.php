@@ -47,7 +47,7 @@ Route::middleware('auth:sanctum',)->group(function () {
 
     Route::get('/users', [AuthController::class, 'index'])->name('user.current');
     Route::put('/users', [AuthController::class, 'update']);
-    Route::post('/logout', [AuthController::class, 'destroy']);
+    Route::post('/logout', [AuthController::class, 'destroy'])->name('user.logout');
 
 
     Route::post('/jobs/{job}/apply', [ApplyJobController::class, 'store']);

@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Sanctum\PersonalAccessToken;
 use App\Http\Resources\AuthenticatedUserResource;
 
 class AuthController extends Controller
@@ -86,12 +87,15 @@ class AuthController extends Controller
     }
     public function destroy(Request $request)
     {
-        auth()->user()
-            ->currentAccessToken()
-            ->delete();
+        $user = auth('sanctum')->user();
+        $token = $user->currentAccessToken();
 
-        return [
+        if ($token instanceof PersonalAccessToken) {
+            $token->delete();
+        }
+
+        return response()->json([
             'message' => 'Logged out'
-        ];
+        ]);
     }
 }

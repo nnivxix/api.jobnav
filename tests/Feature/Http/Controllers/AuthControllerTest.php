@@ -35,3 +35,28 @@ test('user should be failed detail data', function () {
         ])
         ->assertStatus(401);
 });
+
+test('user should be failed log out', function () {
+    $this->post(route('user.logout'))
+        ->assertJson([
+            'message' => 'Unauthenticated.',
+        ])
+        ->assertStatus(401);
+});
+
+test('user should be success log out', function () {
+    $user = $this->post(route('user.login'), [
+        'email'    => 'hanasa@hanasa.com',
+        'password' => 'password'
+    ]);
+
+    // dd($user['token']);
+
+    $this->post(route('user.logout'), [
+        'Authorization' => "Bearer " . $user['token']
+    ])
+        ->assertJson([
+            'message' => 'Logged out'
+        ])
+        ->assertStatus(200);
+});
