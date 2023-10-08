@@ -16,6 +16,11 @@ class ApplyJob extends Model
         'status' => StatusJobEnum::class,
     ];
 
+    public function getRouteKeyName()
+    {
+        return 'uuid';
+    }
+
     public function user()
     {
         return $this->hasOne(User::class, 'id', 'user_id');

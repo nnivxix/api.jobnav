@@ -30,6 +30,7 @@ class ApplyJobController extends Controller
 
         $validate['job_id'] = $job->id;
         $validate['user_id'] = auth()->user()->id;
+        $validate['uuid'] = Str::uuid();
 
         $job = new ApplyJob($validate);
         $job->save();

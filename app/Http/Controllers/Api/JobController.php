@@ -30,10 +30,10 @@ class JobController extends Controller
             })
             ->orderBy('posted_at', 'desc')
             ->paginate($per_page);
-            
-            // Benchmark::dd([
-            //     fn() => $jobs
-            // ]);
+
+        // Benchmark::dd([
+        //     fn() => $jobs
+        // ]);
 
         return JobResource::collection($jobs);
     }
@@ -44,19 +44,19 @@ class JobController extends Controller
 
         if (auth('sanctum')->check()) {
             $applyJob = ApplyJob::query()
-            ->where('job_id', $job->id)
-            ->where('user_id', auth('sanctum')->user()->id)
-            ->first(); 
+                ->where('job_id', $job->id)
+                ->where('user_id', auth('sanctum')->user()->id)
+                ->first();
         }
-
+        // dd($applyJob);
         // Benchmark::dd([
         //     fn() => $job,
         //     fn() => $applyJob,
         //   ], 3);
 
-        return JobResource::make($job)
-        ->additional([
-            'job_status' => ApplyJobResource::make($applyJob)
-        ]);
+        return JobResource::make($job->load('company'))
+            ->additional([
+                'job_status' => $applyJob ? ApplyJobResource::make($applyJob) : null
+            ]);
     }
 }
