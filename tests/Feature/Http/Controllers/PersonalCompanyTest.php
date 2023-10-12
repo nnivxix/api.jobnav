@@ -50,9 +50,6 @@ test('user should be can see detail a owned company', function () {
     $this->assertEquals($company['name'], $response['data']['name']);
 });
 
-test('user should be get code 404', function () {
-})->skip();
-
 test('user should be can update owned personal company', function () {
     $company = $this->get(route('personal-company.index'))
         ->json()['data'][0];
@@ -75,4 +72,39 @@ test('user should be can update owned personal company', function () {
         ->assertJson([
             'message' => 'company updated'
         ]);
+});
+
+test('user should be can delete owned company', function () {
+    $company = $this->get(route('personal-company.index'))
+        ->json()['data'][0];
+
+    $response = $this->delete(
+        route('personal-company.destroy', [
+            'company' => $company['slug']
+        ]),
+    );
+
+    $response
+        ->assertJson([
+            'message' => 'Company deleted'
+        ])
+        ->assertStatus(200);
+});
+
+test('user should be get code 404 when get detail deleted owned company', function () {
+    $company = $this->get(route('personal-company.index'))
+        ->json()['data'][0];
+
+    $this->delete(
+        route('personal-company.destroy', [
+            'company' => $company['slug']
+        ]),
+    );
+
+    $response = $this->get(route('personal-company.show', [
+        'company' => $company['slug']
+    ]));
+
+    $response
+        ->assertStatus(404);
 });

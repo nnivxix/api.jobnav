@@ -35,7 +35,7 @@ Route::middleware('auth:sanctum',)->group(function () {
     Route::post('/personal-companies', [PersonalCompanyController::class, 'store'])->name('personal-company.store');
     Route::get('/personal-companies/{company}', [PersonalCompanyController::class, 'show'])->name('personal-company.show');
     Route::put('/personal-companies/{company}', [PersonalCompanyController::class, 'update'])->name('personal-company.update');
-    Route::delete('/personal-companies/{company}', [PersonalCompanyController::class, 'destroy']);
+    Route::delete('/personal-companies/{company}', [PersonalCompanyController::class, 'destroy'])->name('personal-company.destroy');
 
     Route::get('/personal-jobs', [PersonalJobController::class, 'index']);
     Route::post('/personal-jobs', [PersonalJobController::class, 'store']);
