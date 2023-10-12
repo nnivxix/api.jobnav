@@ -9,18 +9,14 @@ beforeEach(function () {
     $users = User::factory(10)
         ->create();
     $companies = Company::factory(8)
-        ->state(new Sequence(
-            fn (Sequence $sequence) => [
-                'owned_by' => User::query()->pluck('id')->random()
-            ]
-        ))
+        ->state([
+            'owned_by' => User::query()->pluck('id')->random()
+        ])
         ->create();
     $jobs = Job::factory(4)
-        ->state(new Sequence(
-            fn (Sequence $sequence) => [
-                'company_id' => Company::query()->pluck('id')->random()
-            ]
-        ))
+        ->state([
+            'company_id' => Company::query()->pluck('id')->random()
+        ])
         ->create();
 });
 
