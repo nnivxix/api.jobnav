@@ -50,7 +50,6 @@ test('user should be success log out', function () {
         'password' => 'password'
     ]);
 
-    // dd($user['token']);
 
     $this->post(route('user.logout'), [
         'Authorization' => "Bearer " . $user['token']
@@ -59,4 +58,31 @@ test('user should be success log out', function () {
             'message' => 'Logged out'
         ])
         ->assertStatus(200);
+});
+
+test('user should be can update profile username', function () {
+    $this->post(route('user.login'), [
+        'email'    => 'hanasa@hanasa.com',
+        'password' => 'password'
+    ]);
+
+    $user = $this->get(route('user.current'));
+
+    $response = $this->put(
+        route('user.update'),
+        [
+            'name'     => 'hanasa sofari',
+            'username' => 'hanasa',
+            'email'    => "hanasa@hanasa.com"
+        ],
+        [
+            'Accept' => "application/json"
+        ],
+    );
+
+    $response->assertJson([
+        'data' => [
+            'name' => 'hanasa sofari'
+        ]
+    ]);
 });

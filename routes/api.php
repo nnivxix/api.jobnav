@@ -46,7 +46,7 @@ Route::middleware('auth:sanctum',)->group(function () {
     Route::delete('/personal-companies/{company}', [PersonalCompanyController::class, 'destroy']);
 
     Route::get('/users', [AuthController::class, 'index'])->name('user.current');
-    Route::put('/users', [AuthController::class, 'update']);
+    Route::put('/users', [AuthController::class, 'update'])->name('user.update');
     Route::post('/logout', [AuthController::class, 'destroy'])->name('user.logout');
 
 

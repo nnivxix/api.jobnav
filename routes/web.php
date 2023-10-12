@@ -92,10 +92,10 @@ Route::controller(UserController::class)->group(function () {
   Route::get('/user',  'index')->middleware(['auth']);
   Route::get('/user/{user:username}', 'show');
   Route::get('/user/{user}/edit', 'edit')->middleware('auth');
-  Route::put('/user/update', 'update')->middleware('auth')->name('user.update');
+  Route::put('/user/update', 'update')->middleware('auth');
   Route::get('/logout', 'destroy')->middleware('auth');
-  Route::get('/register', 'create')->name('register')->middleware('guest');
-  Route::post('/register', 'store')->name('save.user');
+  Route::get('/register', 'create')->middleware('guest');
+  Route::post('/register', 'store');
 });
 
 Route::controller(CompanyController::class)->group(function () {

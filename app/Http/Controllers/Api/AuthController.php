@@ -28,7 +28,7 @@ class AuthController extends Controller
             'name'     => 'required',
             'email'    => 'email',
             'username' => 'required|unique:users,username,' . auth()->id(),
-            'header'   => 'nullable|string',
+            'bio'   => 'nullable|string',
             'avatar'   => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'cover'    => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'skills'   => 'nullable|string',
