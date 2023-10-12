@@ -49,3 +49,30 @@ test('user should be can see detail a owned company', function () {
 
     $this->assertEquals($company['name'], $response['data']['name']);
 });
+
+test('user should be get code 404', function () {
+})->skip();
+
+test('user should be can update owned personal company', function () {
+    $company = $this->get(route('personal-company.index'))
+        ->json()['data'][0];
+
+    $response = $this->put(
+        route('personal-company.update', [
+            'company' => $company['slug']
+        ]),
+        [
+            'name'       => 'company edited',
+            'title'       => 'company edited',
+            'description' => 'description company edited',
+            'location'    => 'location company edited',
+            'position'    => 'position company edited',
+            'salary'      => 2345,
+        ]
+    );
+    $response
+        ->assertStatus(200)
+        ->assertJson([
+            'message' => 'company updated'
+        ]);
+});

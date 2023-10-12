@@ -57,6 +57,7 @@ class PersonalJobController extends Controller
     public function update(Request $request, $uuid)
     {
         $job = $request->validate([
+            'name'        => 'required',
             'title'       => 'required',
             'description' => 'required',
             'location'    => 'required',
