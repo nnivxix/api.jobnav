@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +16,11 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 // uses(Tests\TestCase::class)->in('Feature');
 
-uses(RefreshDatabase::class, Tests\TestCase::class)->in('Feature');
+uses(RefreshDatabase::class, Tests\TestCase::class,)
+    ->beforeEach(function () {
+        Storage::fake('public');
+    })
+    ->in('Feature', 'Unit');
 
 /*
 |--------------------------------------------------------------------------

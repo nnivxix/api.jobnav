@@ -31,9 +31,9 @@ Route::middleware('auth:sanctum',)->group(function () {
     Route::put('/users', [AuthController::class, 'update'])->name('user.update');
     Route::post('/logout', [AuthController::class, 'destroy'])->name('user.logout');
 
-    Route::get('/personal-companies', [PersonalCompanyController::class, 'index']);
-    Route::post('/personal-companies', [PersonalCompanyController::class, 'store']);
-    Route::get('/personal-companies/{company}', [PersonalCompanyController::class, 'show']);
+    Route::get('/personal-companies', [PersonalCompanyController::class, 'index'])->name('personal-company.index');
+    Route::post('/personal-companies', [PersonalCompanyController::class, 'store'])->name('personal-company.store');
+    Route::get('/personal-companies/{company}', [PersonalCompanyController::class, 'show'])->name('personal-company.show');
     Route::put('/personal-companies/{company}', [PersonalCompanyController::class, 'update']);
     Route::delete('/personal-companies/{company}', [PersonalCompanyController::class, 'destroy']);
 
@@ -61,5 +61,7 @@ Route::middleware('unauthenticate')->group(function () {
 
 Route::get('/jobs', [JobController::class, 'index']);
 Route::get('/jobs/{job}', [JobController::class, 'show']);
+
+// List company
 
 Route::get('/users/{user}', [UserController::class, 'show']);
