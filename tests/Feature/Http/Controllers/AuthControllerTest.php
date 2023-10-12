@@ -1,5 +1,9 @@
 <?php
 
+use App\Models\User;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Testing\Fluent\AssertableJson;
+
 beforeEach(function () {
     // uses(Illuminate\Contracts\Auth\Authenticatable::class);
     $this->withHeaders(['Accept' => 'application/json'])
@@ -50,7 +54,6 @@ test('user should be success log out', function () {
         'password' => 'password'
     ]);
 
-
     $this->post(route('user.logout'), [
         'Authorization' => "Bearer " . $user['token']
     ])
@@ -65,8 +68,6 @@ test('user should be can update profile username', function () {
         'email'    => 'hanasa@hanasa.com',
         'password' => 'password'
     ]);
-
-    $user = $this->get(route('user.current'));
 
     $response = $this->put(
         route('user.update'),
@@ -85,4 +86,27 @@ test('user should be can update profile username', function () {
             'name' => 'hanasa sofari'
         ]
     ]);
+});
+
+test('user should be can update profile avatar', function () {
+    $this->post(route('user.login'), [
+        'email'    => 'hanasa@hanasa.com',
+        'password' => 'password'
+    ]);
+
+    $avatar = UploadedFile::fake()->image('avatar.jpg');
+
+    $response = $this->put(
+        route('user.update'),
+        [
+            'name'     => 'hanasa',
+            'username' => 'hanasa',
+            'email'    => "hanasa@hanasa.com",
+            'avatar'   => $avatar
+        ],
+        [
+            'Accept' => "application/json"
+        ],
+    )->json();
+    $this->assertNotNull($response['data']['avatar']);
 });

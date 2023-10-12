@@ -27,17 +27,9 @@ use App\Http\Controllers\Api\PersonalJobUserController;
 */
 
 Route::middleware('auth:sanctum',)->group(function () {
-    Route::get('/personal-jobs', [PersonalJobController::class, 'index']);
-    Route::post('/personal-jobs', [PersonalJobController::class, 'store']);
-    Route::put('/personal-jobs/{uuid}', [PersonalJobController::class, 'update']);
-    Route::get('/personal-jobs/{job}', [PersonalJobController::class, 'show']);
-    Route::delete('/personal-jobs/{job}', [PersonalJobController::class, 'destroy']);
-
-    Route::get('/personal-jobs/{job}/user', [PersonalJobUserController::class, 'show']);
-    Route::put('/personal-jobs/{job}/user', [PersonalJobUserController::class, 'update']);
-
-    Route::get('/personal-apply-jobs', [PersonalApplyJobController::class, 'index']);
-    Route::get('/personal-apply-jobs/{applyJob}', [PersonalApplyJobController::class, 'show']);
+    Route::get('/users', [AuthController::class, 'index'])->name('user.current');
+    Route::put('/users', [AuthController::class, 'update'])->name('user.update');
+    Route::post('/logout', [AuthController::class, 'destroy'])->name('user.logout');
 
     Route::get('/personal-companies', [PersonalCompanyController::class, 'index']);
     Route::post('/personal-companies', [PersonalCompanyController::class, 'store']);
@@ -45,12 +37,19 @@ Route::middleware('auth:sanctum',)->group(function () {
     Route::put('/personal-companies/{company}', [PersonalCompanyController::class, 'update']);
     Route::delete('/personal-companies/{company}', [PersonalCompanyController::class, 'destroy']);
 
-    Route::get('/users', [AuthController::class, 'index'])->name('user.current');
-    Route::put('/users', [AuthController::class, 'update'])->name('user.update');
-    Route::post('/logout', [AuthController::class, 'destroy'])->name('user.logout');
-
+    Route::get('/personal-jobs', [PersonalJobController::class, 'index']);
+    Route::post('/personal-jobs', [PersonalJobController::class, 'store']);
+    Route::put('/personal-jobs/{uuid}', [PersonalJobController::class, 'update']);
+    Route::get('/personal-jobs/{job}', [PersonalJobController::class, 'show']);
+    Route::delete('/personal-jobs/{job}', [PersonalJobController::class, 'destroy']);
 
     Route::post('/jobs/{job}/apply', [ApplyJobController::class, 'store']);
+
+    Route::get('/personal-jobs/{job}/user', [PersonalJobUserController::class, 'show']);
+    Route::put('/personal-jobs/{job}/user', [PersonalJobUserController::class, 'update']);
+
+    Route::get('/personal-apply-jobs', [PersonalApplyJobController::class, 'index']);
+    Route::get('/personal-apply-jobs/{applyJob}', [PersonalApplyJobController::class, 'show']);
 });
 
 Route::middleware('unauthenticate')->group(function () {
