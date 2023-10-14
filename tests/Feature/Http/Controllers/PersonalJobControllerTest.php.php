@@ -57,3 +57,24 @@ test('user should be can see applicants on single personal job post', function (
 
     $this->assertCount(1, $response['data']['applicants']);
 });
+
+test('user should be can update personal job post', function () {
+    $job = Job::limit(1)->first();
+
+    $response = $this->putJson(route('personal-job.update', [
+        'uuid' => $job->uuid
+    ]), [
+        'title'       => $job->title,
+        'description' => $job->description,
+        'location'    => $job->location,
+        'position'    => $job->position,
+        'salary'      => 120,
+        'categories'  => $job->categories,
+    ]);
+
+    $response->assertStatus(200);
+    $this->assertEquals('Job updated', $response['message']);
+    $this->assertDatabaseHas('jobs', [
+        'salary'      => 120,
+    ]);
+});
