@@ -37,13 +37,13 @@ Route::middleware('auth:sanctum',)->group(function () {
     Route::put('/personal-companies/{company}', [PersonalCompanyController::class, 'update'])->name('personal-company.update');
     Route::delete('/personal-companies/{company}', [PersonalCompanyController::class, 'destroy'])->name('personal-company.destroy');
 
+    Route::post('/jobs/{job}/apply', [ApplyJobController::class, 'store'])->name('apply-job.store');
+
     Route::get('/personal-jobs', [PersonalJobController::class, 'index']);
     Route::post('/personal-jobs', [PersonalJobController::class, 'store']);
     Route::put('/personal-jobs/{uuid}', [PersonalJobController::class, 'update']);
     Route::get('/personal-jobs/{job}', [PersonalJobController::class, 'show']);
     Route::delete('/personal-jobs/{job}', [PersonalJobController::class, 'destroy']);
-
-    Route::post('/jobs/{job}/apply', [ApplyJobController::class, 'store']);
 
     Route::get('/personal-jobs/{job}/user', [PersonalJobUserController::class, 'show']);
     Route::put('/personal-jobs/{job}/user', [PersonalJobUserController::class, 'update']);
@@ -59,7 +59,7 @@ Route::middleware('unauthenticate')->group(function () {
 });
 
 
-Route::get('/jobs', [JobController::class, 'index']);
+Route::get('/jobs', [JobController::class, 'index'])->name('job.index');
 Route::get('/jobs/{job}', [JobController::class, 'show']);
 
 // List company

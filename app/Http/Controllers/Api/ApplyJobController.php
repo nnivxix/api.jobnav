@@ -17,7 +17,7 @@ class ApplyJobController extends Controller
             'attachment'   => 'required|file|max:2000|mimes:pdf'
         ]);
 
-        abort_if($job->isAppliedByUser, response()->json([
+        abort_if($job->isAppliedByUser || $job->company->owned_by == auth()->user()->id, response()->json([
             'message' => 'Forbidden'
         ], 403));
 
