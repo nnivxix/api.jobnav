@@ -78,3 +78,37 @@ test('user should be can update personal job post', function () {
         'salary'      => 120,
     ]);
 });
+
+test('user should be can create a personal job', function () {
+    $company = Company::limit(1)->first();
+
+    $response = $this->postJson(route('personal-job.store'), [
+        'company_id'  => $company->id,
+        'title'       => fake()->sentence(),
+        'description' => fake()->sentence(),
+        'location'    => fake()->sentence(),
+        'position'    => fake()->sentence(),
+        'salary'      => 1200,
+        'categories'  => fake()->sentence(),
+    ]);
+
+    $response->assertCreated();
+    $this->assertDatabaseCount('jobs', 9);
+});
+
+test('user should be can\'t create personal using other company', function () {
+
+    $response = $this->postJson(route('personal-job.store'), [
+        'company_id'  => fake()->numberBetween(29, 109),
+        'title'       => fake()->sentence(),
+        'description' => fake()->sentence(),
+        'location'    => fake()->sentence(),
+        'position'    => fake()->sentence(),
+        'salary'      => 1200,
+        'categories'  => fake()->sentence(),
+    ]);
+    $response->assertJson([
+        'message' => 'Forbidden',
+    ])
+        ->assertStatus(403);
+});

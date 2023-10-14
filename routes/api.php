@@ -40,7 +40,7 @@ Route::middleware('auth:sanctum',)->group(function () {
     Route::post('/jobs/{job}/apply', [ApplyJobController::class, 'store'])->name('apply-job.store');
 
     Route::get('/personal-jobs', [PersonalJobController::class, 'index'])->name('personal-job.index');
-    Route::post('/personal-jobs', [PersonalJobController::class, 'store']);
+    Route::post('/personal-jobs', [PersonalJobController::class, 'store'])->name('personal-job.store');
     Route::put('/personal-jobs/{uuid}', [PersonalJobController::class, 'update'])->name('personal-job.update');
     Route::get('/personal-jobs/{job}', [PersonalJobController::class, 'show'])->name('personal-job.show');
     Route::delete('/personal-jobs/{job}', [PersonalJobController::class, 'destroy']);
