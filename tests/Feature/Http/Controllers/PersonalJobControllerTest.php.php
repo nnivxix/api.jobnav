@@ -112,3 +112,43 @@ test('user should be can\'t create personal using other company', function () {
     ])
         ->assertStatus(403);
 });
+
+test('user should be can delete own personal job', function () {
+    $job = Job::limit(1)->first();
+    $response = $this->deleteJson(route('personal-job.destroy', [
+        'job' => $job->uuid
+    ]));
+
+    $response
+        ->assertJson([
+            'message' => 'Job deleted'
+        ])
+        ->assertStatus(200);
+    $this->assertModelMissing($job);
+});
+
+test('user should be can\'t delete other personal job', function () {
+    $user = User::factory(3)
+        ->create();
+
+    $company = Company::factory()
+        ->state([
+            'owned_by' => $user->pluck('id')->random()
+        ])
+        ->create();
+
+    $job = Job::factory()->state([
+        'company_id' => $company->id
+    ])
+        ->create();
+
+    $response = $this->deleteJson(route('personal-job.destroy', [
+        'job' => $job->uuid
+    ]));
+
+    $response
+        ->assertJson([
+            'message' => 'Forbidden',
+        ])
+        ->assertStatus(403);
+});

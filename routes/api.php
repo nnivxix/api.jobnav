@@ -43,7 +43,7 @@ Route::middleware('auth:sanctum',)->group(function () {
     Route::post('/personal-jobs', [PersonalJobController::class, 'store'])->name('personal-job.store');
     Route::put('/personal-jobs/{uuid}', [PersonalJobController::class, 'update'])->name('personal-job.update');
     Route::get('/personal-jobs/{job}', [PersonalJobController::class, 'show'])->name('personal-job.show');
-    Route::delete('/personal-jobs/{job}', [PersonalJobController::class, 'destroy']);
+    Route::delete('/personal-jobs/{job}', [PersonalJobController::class, 'destroy'])->name('personal-job.destroy');
 
     Route::get('/personal-jobs/{job}/user', [PersonalJobUserController::class, 'show']);
     Route::put('/personal-jobs/{job}/user', [PersonalJobUserController::class, 'update']);

@@ -85,7 +85,7 @@ class PersonalJobController extends Controller
     {
 
         $isCompanyOwnedByUser = $job
-            ->company
+            ->company()
             ->where('owned_by', auth()->user()->id)
             ->get();
 
