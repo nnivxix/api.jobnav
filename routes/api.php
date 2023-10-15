@@ -48,8 +48,8 @@ Route::middleware('auth:sanctum',)->group(function () {
     Route::get('/personal-jobs/{job}/user', [PersonalJobUserController::class, 'show'])->name('personal-job-user.show');
     Route::put('/personal-jobs/{job}/user', [PersonalJobUserController::class, 'update'])->name('personal-job-user.update');
 
-    Route::get('/personal-apply-jobs', [PersonalApplyJobController::class, 'index']);
-    Route::get('/personal-apply-jobs/{applyJob}', [PersonalApplyJobController::class, 'show']);
+    Route::get('/personal-apply-jobs', [PersonalApplyJobController::class, 'index'])->name('personal-apply-job.index');
+    Route::get('/personal-apply-jobs/{applyJob}', [PersonalApplyJobController::class, 'show'])->name('personal-apply-job.show');
 });
 
 Route::middleware('unauthenticate')->group(function () {

@@ -13,11 +13,9 @@ class PersonalApplyJobController extends Controller
     {
         $applyJobs = ApplyJob::query()
             ->with('job')
-            ->where('user_id', 1)->get();
+            ->where('user_id', auth()->user()->id)->get();
 
-        return response()->json([
-            'data' => $applyJobs
-        ]);
+        return PersonalApplyJobResource::collection($applyJobs);
     }
 
     public function show(ApplyJob $applyJob)
