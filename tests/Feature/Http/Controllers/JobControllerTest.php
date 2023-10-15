@@ -55,9 +55,19 @@ test('user should be can see detail job', function () {
     $job = Job::first();
 
     $response = $this->getJson(route('job.show', [
-        'job' => $job->uuid
+        'uuid' => $job->uuid
     ]));
 
     $response->assertStatus(200);
     $this->assertEquals($job->title, $response['data']['title']);
+});
+
+test('user should be get 404 error when input wrong uuid of job', function () {
+
+    $response = $this->getJson(route('job.show', [
+        'uuid' => fake()->uuid()
+    ]));
+
+    $response->assertStatus(404);
+    $this->assertEquals("Not Found", $response['message']);
 });
