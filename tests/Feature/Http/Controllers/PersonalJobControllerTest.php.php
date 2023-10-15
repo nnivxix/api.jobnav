@@ -26,14 +26,14 @@ beforeEach(function () {
         ])
         ->create();
 
-    $this->post(route('user.login'), [
+    $this->post(route('api.user.login'), [
         'email'    => 'hanasa@hanasa.com',
         'password' => 'password'
     ])->json();
 });
 
 test('user should be can see personal job posts', function () {
-    $response = $this->get(route('personal-job.index'))
+    $response = $this->get(route('api.personal-job.index'))
         ->json();
     $this->assertCount(8, $response['data']);
 });
@@ -50,7 +50,7 @@ test('user should be can see applicants on single personal job post', function (
         'status'       => 'pending',
     ]);
 
-    $response = $this->get(route('personal-job.show', [
+    $response = $this->get(route('api.personal-job.show', [
         'job' => $job->uuid
     ]))
         ->json();
@@ -61,7 +61,7 @@ test('user should be can see applicants on single personal job post', function (
 test('user should be can update personal job post', function () {
     $job = Job::limit(1)->first();
 
-    $response = $this->putJson(route('personal-job.update', [
+    $response = $this->putJson(route('api.personal-job.update', [
         'uuid' => $job->uuid
     ]), [
         'title'       => $job->title,
@@ -82,7 +82,7 @@ test('user should be can update personal job post', function () {
 test('user should be can create a personal job', function () {
     $company = Company::limit(1)->first();
 
-    $response = $this->postJson(route('personal-job.store'), [
+    $response = $this->postJson(route('api.personal-job.store'), [
         'company_id'  => $company->id,
         'title'       => fake()->sentence(),
         'description' => fake()->sentence(),
@@ -98,7 +98,7 @@ test('user should be can create a personal job', function () {
 
 test('user should be can\'t create personal using other company', function () {
 
-    $response = $this->postJson(route('personal-job.store'), [
+    $response = $this->postJson(route('api.personal-job.store'), [
         'company_id'  => fake()->numberBetween(29, 109),
         'title'       => fake()->sentence(),
         'description' => fake()->sentence(),
@@ -115,7 +115,7 @@ test('user should be can\'t create personal using other company', function () {
 
 test('user should be can delete own personal job', function () {
     $job = Job::limit(1)->first();
-    $response = $this->deleteJson(route('personal-job.destroy', [
+    $response = $this->deleteJson(route('api.personal-job.destroy', [
         'job' => $job->uuid
     ]));
 
@@ -142,7 +142,7 @@ test('user should be can\'t delete other personal job', function () {
     ])
         ->create();
 
-    $response = $this->deleteJson(route('personal-job.destroy', [
+    $response = $this->deleteJson(route('api.personal-job.destroy', [
         'job' => $job->uuid
     ]));
 

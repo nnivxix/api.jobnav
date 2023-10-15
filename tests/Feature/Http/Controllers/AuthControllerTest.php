@@ -7,7 +7,7 @@ test('user should be get detail data', function () {
     $user = User::factory()->create();
 
     $this->actingAs($user)
-        ->get(route('user.current'))
+        ->get(route('api.user.current'))
         ->assertJsonStructure([
             'data' => [
                 'id',
@@ -19,7 +19,7 @@ test('user should be get detail data', function () {
 });
 
 test('user should be failed detail data', function () {
-    $response = $this->get(route('user.current'),  [
+    $response = $this->get(route('api.user.current'),  [
         'Accept' => "application/json"
     ]);
 
@@ -30,7 +30,7 @@ test('user should be failed detail data', function () {
 });
 
 test('user should be failed log out', function () {
-    $response = $this->postJson(route('user.logout'), [
+    $response = $this->postJson(route('api.user.logout'), [
         'Accept' => "application/json"
     ]);
 
@@ -45,7 +45,7 @@ test('user should be success log out', function () {
     $user = User::factory()->create();
 
     $this->actingAs($user)
-        ->post(route('user.logout'), [
+        ->post(route('api.user.logout'), [
             'Authorization' => "Bearer " . $user['token']
         ])
         ->assertJson([
@@ -59,7 +59,7 @@ test('user should be can update profile username', function () {
 
     $response = $this->actingAs($user)
         ->put(
-            route('user.update'),
+            route('api.user.update'),
             [
                 'name'     => 'hanasa sofari',
                 'username' => $user->username,
@@ -79,14 +79,13 @@ test('user should be can update profile username', function () {
 
 test('user should be can update profile avatar', function () {
     $user = User::factory()
-        ->hasProfile()
         ->create();
 
     $avatar = UploadedFile::fake()->image('avatar.jpg');
 
     $response = $this->actingAs($user)
-        ->put(
-            route('user.update'),
+        ->putJson(
+            route('api.user.update'),
             [
                 'name'     => $user->name,
                 'username' => $user->username,

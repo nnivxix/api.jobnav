@@ -27,40 +27,40 @@ use App\Http\Controllers\Api\PersonalJobUserController;
 */
 
 Route::middleware('auth:sanctum',)->group(function () {
-    Route::get('/users', [AuthController::class, 'index'])->name('user.current');
-    Route::put('/users', [AuthController::class, 'update'])->name('user.update');
-    Route::post('/logout', [AuthController::class, 'destroy'])->name('user.logout');
+    Route::get('/users', [AuthController::class, 'index'])->name('api.user.current');
+    Route::put('/users', [AuthController::class, 'update'])->name('api.user.update');
+    Route::post('/logout', [AuthController::class, 'destroy'])->name('api.user.logout');
 
-    Route::get('/personal-companies', [PersonalCompanyController::class, 'index'])->name('personal-company.index');
-    Route::post('/personal-companies', [PersonalCompanyController::class, 'store'])->name('personal-company.store');
-    Route::get('/personal-companies/{company}', [PersonalCompanyController::class, 'show'])->name('personal-company.show');
-    Route::put('/personal-companies/{company}', [PersonalCompanyController::class, 'update'])->name('personal-company.update');
-    Route::delete('/personal-companies/{company}', [PersonalCompanyController::class, 'destroy'])->name('personal-company.destroy');
+    Route::get('/personal-companies', [PersonalCompanyController::class, 'index'])->name('api.personal-company.index');
+    Route::post('/personal-companies', [PersonalCompanyController::class, 'store'])->name('api.personal-company.store');
+    Route::get('/personal-companies/{company}', [PersonalCompanyController::class, 'show'])->name('api.personal-company.show');
+    Route::put('/personal-companies/{company}', [PersonalCompanyController::class, 'update'])->name('api.personal-company.update');
+    Route::delete('/personal-companies/{company}', [PersonalCompanyController::class, 'destroy'])->name('api.personal-company.destroy');
 
-    Route::post('/jobs/{job}/apply', [ApplyJobController::class, 'store'])->name('apply-job.store');
+    Route::post('/jobs/{job}/apply', [ApplyJobController::class, 'store'])->name('api.apply-job.store');
 
-    Route::get('/personal-jobs', [PersonalJobController::class, 'index'])->name('personal-job.index');
-    Route::post('/personal-jobs', [PersonalJobController::class, 'store'])->name('personal-job.store');
-    Route::put('/personal-jobs/{uuid}', [PersonalJobController::class, 'update'])->name('personal-job.update');
-    Route::get('/personal-jobs/{job}', [PersonalJobController::class, 'show'])->name('personal-job.show');
-    Route::delete('/personal-jobs/{job}', [PersonalJobController::class, 'destroy'])->name('personal-job.destroy');
+    Route::get('/personal-jobs', [PersonalJobController::class, 'index'])->name('api.personal-job.index');
+    Route::post('/personal-jobs', [PersonalJobController::class, 'store'])->name('api.personal-job.store');
+    Route::put('/personal-jobs/{uuid}', [PersonalJobController::class, 'update'])->name('api.personal-job.update');
+    Route::get('/personal-jobs/{job}', [PersonalJobController::class, 'show'])->name('api.personal-job.show');
+    Route::delete('/personal-jobs/{job}', [PersonalJobController::class, 'destroy'])->name('api.personal-job.destroy');
 
-    Route::get('/personal-jobs/{job}/user', [PersonalJobUserController::class, 'show'])->name('personal-job-user.show');
-    Route::put('/personal-jobs/{job}/user', [PersonalJobUserController::class, 'update'])->name('personal-job-user.update');
+    Route::get('/personal-jobs/{job}/user', [PersonalJobUserController::class, 'show'])->name('api.personal-job-user.show');
+    Route::put('/personal-jobs/{job}/user', [PersonalJobUserController::class, 'update'])->name('api.personal-job-user.update');
 
-    Route::get('/personal-apply-jobs', [PersonalApplyJobController::class, 'index'])->name('personal-apply-job.index');
-    Route::get('/personal-apply-jobs/{applyJob}', [PersonalApplyJobController::class, 'show'])->name('personal-apply-job.show');
+    Route::get('/personal-apply-jobs', [PersonalApplyJobController::class, 'index'])->name('api.personal-apply-job.index');
+    Route::get('/personal-apply-jobs/{applyJob}', [PersonalApplyJobController::class, 'show'])->name('api.personal-apply-job.show');
 });
 
 Route::middleware('unauthenticate')->group(function () {
-    Route::post('/login', [LoginController::class, 'store'])->name('user.login');
-    Route::post('/register', [RegisterUserController::class, 'store'])->name('user.register');
-    Route::get('/verify/{user}', [RegisterUserController::class, 'verify'])->name('register-user.verify');
+    Route::post('/login', [LoginController::class, 'store'])->name('api.user.login');
+    Route::post('/register', [RegisterUserController::class, 'store'])->name('api.user.register');
+    Route::get('/verify/{user}', [RegisterUserController::class, 'verify'])->name('api.register-user.verify');
 });
 
 
-Route::get('/jobs', [JobController::class, 'index'])->name('job.index');
-Route::get('/jobs/{uuid}', [JobController::class, 'show'])->name('job.show');
+Route::get('/jobs', [JobController::class, 'index'])->name('api.job.index');
+Route::get('/jobs/{uuid}', [JobController::class, 'show'])->name('api.job.show');
 
 // List company
 

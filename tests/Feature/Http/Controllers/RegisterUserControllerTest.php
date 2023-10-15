@@ -5,7 +5,7 @@ use App\Models\User;
 
 test('user should be failed proccess register', function () {
     $this->withHeaders(['Accept' => 'application/json'])
-        ->post(route('user.register'), [
+        ->post(route('api.user.register'), [
             'email'    => 'hanasa@mail.com',
             'password' => 'test-halo'
         ])
@@ -29,7 +29,7 @@ test('user should be failed proccess register because the credential has been ta
     ]);
 
     $this->withHeaders(['Accept' => 'application/json'])
-        ->post(route('user.register'), [
+        ->post(route('api.user.register'), [
             'name'     => 'Hanasa',
             'username' => 'hanasa',
             'email'    => 'hanasa@hanasa.com',
@@ -45,7 +45,7 @@ test('user should be failed proccess register because the credential has been ta
 });
 
 test('user should be success register', function () {
-    $this->post(route('user.register'), [
+    $this->post(route('api.user.register'), [
         'username' => 'hanasa',
         'name'     => 'Hanasa',
         'email'    => 'hanasa@mail.com',

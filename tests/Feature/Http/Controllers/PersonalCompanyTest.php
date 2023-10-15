@@ -23,14 +23,14 @@ beforeEach(function () {
         ])
         ->create();
 
-    $this->post(route('user.login'), [
+    $this->post(route('api.user.login'), [
         'email'    => 'hanasa@hanasa.com',
         'password' => 'password'
     ])->json();
 });
 
 test('user should be can see own companies', function () {
-    $response = $this->get(route('personal-company.index'))
+    $response = $this->get(route('api.personal-company.index'))
         ->json();
 
     $this->assertCount(3, $response['data']);
@@ -41,25 +41,23 @@ test('user should be can create a company', function () {
 
 test('user should be can see detail a owned company', function () {
 
-    $company = $this->get(route('personal-company.index'))
-        ->json()['data'][0];
-    $response = $this->get(route('personal-company.show', [
-        'company' => $company['slug']
+    $company = Company::first();
+    $response = $this->get(route('api.personal-company.show', [
+        'company' => $company->slug
     ]));
 
-    $this->assertEquals($company['name'], $response['data']['name']);
+    $this->assertEquals($company->name, $response['data']['name']);
 });
 
 test('user should be can update owned personal company', function () {
-    $company = $this->get(route('personal-company.index'))
-        ->json()['data'][0];
+    $company = Company::where('owned_by', auth()->user()->id)->first();
 
     $response = $this->put(
-        route('personal-company.update', [
-            'company' => $company['slug']
+        route('api.personal-company.update', [
+            'company' => $company->slug
         ]),
         [
-            'name'       => 'company edited',
+            'name'        => 'company edited',
             'title'       => 'company edited',
             'description' => 'description company edited',
             'location'    => 'location company edited',
@@ -75,12 +73,11 @@ test('user should be can update owned personal company', function () {
 });
 
 test('user should be can delete owned company', function () {
-    $company = $this->get(route('personal-company.index'))
-        ->json()['data'][0];
+    $company = Company::where('owned_by', auth()->user()->id)->first();
 
     $response = $this->delete(
-        route('personal-company.destroy', [
-            'company' => $company['slug']
+        route('api.personal-company.destroy', [
+            'company' => $company->slug
         ]),
     );
 
@@ -89,19 +86,14 @@ test('user should be can delete owned company', function () {
             'message' => 'Company deleted'
         ])
         ->assertStatus(200);
+    $this->assertModelMissing($company);
 });
 
 test('user should be get code 404 when get detail deleted owned company', function () {
-    $company = $this->get(route('personal-company.index'))
-        ->json()['data'][0];
+    $company = Company::where('owned_by', auth()->user()->id)->first();
+    $company->delete();
 
-    $this->delete(
-        route('personal-company.destroy', [
-            'company' => $company['slug']
-        ]),
-    );
-
-    $response = $this->get(route('personal-company.show', [
+    $response = $this->get(route('api.personal-company.show', [
         'company' => $company['slug']
     ]));
 

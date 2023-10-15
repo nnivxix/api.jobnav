@@ -40,7 +40,7 @@ beforeEach(function () {
     ]);
 
 
-    $this->post(route('user.login'), [
+    $this->post(route('api.user.login'), [
         'email'    => 'hanasa@hanasa.com',
         'password' => 'password'
     ])->json();
@@ -50,7 +50,7 @@ test('user should be get detail applicant', function () {
     $job = Job::limit(1)->first();
     $applicant = User::where('id', '!=', auth()->user()->id)->first();
 
-    $response = $this->getJson(route('personal-job-user.show', [
+    $response = $this->getJson(route('api.personal-job-user.show', [
         'job' => $job->uuid,
         'id'  => $applicant->id
     ]));
@@ -63,7 +63,7 @@ test('user should be can update status applicant', function () {
     $job = Job::limit(1)->first();
     $applicant = User::where('id', '!=', auth()->user()->id)->first();
 
-    $response = $this->putJson(route('personal-job-user.update', [
+    $response = $this->putJson(route('api.personal-job-user.update', [
         'job' => $job->uuid,
         'id'  => $applicant->id
     ]), [

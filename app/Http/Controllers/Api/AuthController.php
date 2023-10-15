@@ -52,7 +52,6 @@ class AuthController extends Controller
         ];
 
         $avatar = $request->file('avatar');
-
         if ($avatar) {
             $avatar_file_name = Str::random(40) . '.' . $avatar->getClientOriginalExtension();
 
@@ -65,7 +64,6 @@ class AuthController extends Controller
         }
 
         $cover = $request->file('cover');
-
         if ($cover) {
             $cover_file_name = Str::random(40) . '.' . $cover->getClientOriginalExtension();
 
@@ -77,9 +75,8 @@ class AuthController extends Controller
             $profileInfo['cover'] = 'users/covers/' . $cover_file_name;
         }
 
-
         $user->update($userInfo);
-        $user->profile()->update($profileInfo);
+        $user->profile->update($profileInfo);
 
         return AuthenticatedUserResource::make($user)
             ->additional([

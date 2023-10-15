@@ -22,14 +22,21 @@ class RegisterUserController extends Controller
         ]);
 
         $userInfo['password'] = Hash::make($userInfo['password']);
-        $user = User::create($userInfo);
 
-        $user->profile()->create([
-            'bio'    => null,
-            'avatar' => null,
-            'cover'  => null,
-            'skills' => null,
-        ]);
+        $user = new User();
+        $user->name = $userInfo['name'];
+        $user->email = $userInfo['email'];
+        $user->username = $userInfo['username'];
+        $user->password = $userInfo['password'];
+        $user->save();
+
+
+        // $user->profile()->create([
+        //     'bio'    => null,
+        //     'avatar' => null,
+        //     'cover'  => null,
+        //     'skills' => null,
+        // ]);
         /** Skip this
          * 
          $signedUrl = URL::signedRoute('register-user.verify', [

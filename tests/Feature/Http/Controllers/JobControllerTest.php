@@ -21,7 +21,7 @@ beforeEach(function () {
 });
 
 test('user can see list jobs', function () {
-    $response = $this->get(route('job.index'));
+    $response = $this->get(route('api.job.index'));
 
     $response
         ->assertJsonCount(4, 'data')
@@ -31,7 +31,7 @@ test('user can see list jobs', function () {
 test('user can search jobs by title', function () {
     $job = Job::first();
 
-    $response = $this->get(route('job.index', [
+    $response = $this->get(route('api.job.index', [
         'q' => $job->title
     ]));
 
@@ -43,7 +43,7 @@ test('user can search jobs by title', function () {
 test('user can search jobs by company', function () {
     $company = Company::first();
 
-    $response = $this->get(route('job.index', [
+    $response = $this->get(route('api.job.index', [
         'q' => $company->title
     ]));
     $response
@@ -54,7 +54,7 @@ test('user can search jobs by company', function () {
 test('user should be can see detail job', function () {
     $job = Job::first();
 
-    $response = $this->getJson(route('job.show', [
+    $response = $this->getJson(route('api.job.show', [
         'uuid' => $job->uuid
     ]));
 
@@ -64,7 +64,7 @@ test('user should be can see detail job', function () {
 
 test('user should be get 404 error when input wrong uuid of job', function () {
 
-    $response = $this->getJson(route('job.show', [
+    $response = $this->getJson(route('api.job.show', [
         'uuid' => fake()->uuid()
     ]));
 

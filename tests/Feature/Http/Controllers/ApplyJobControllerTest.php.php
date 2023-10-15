@@ -38,7 +38,7 @@ beforeEach(function () {
         ])
         ->create();
 
-    $this->post(route('user.login'), [
+    $this->post(route('api.user.login'), [
         'email'    => 'hanasa@hanasa.com',
         'password' => 'password'
     ])->json();
@@ -50,14 +50,14 @@ test('user should be cannot apply job twice', function () {
 
     $attachment = UploadedFile::fake()->create('doc-attacment.pdf', 120, 'application/pdf');
 
-    $this->post(route('apply-job.store', [
+    $this->post(route('api.apply-job.store', [
         'job' => $job->uuid
     ]), [
         'cover_letter' => fake()->sentence(),
         'attachment' => $attachment
     ]);
 
-    $this->post(route('apply-job.store', [
+    $this->post(route('api.apply-job.store', [
         'job' => $job?->uuid
     ]), [
         'cover_letter' => fake()->sentence(),
@@ -75,7 +75,7 @@ test('user should be cannot apply job to own job', function () {
 
     $attachment = UploadedFile::fake()->create('doc-attacment.pdf', 120, 'application/pdf');
 
-    $this->post(route('apply-job.store', [
+    $this->post(route('api.apply-job.store', [
         'job' => $job->uuid
     ]), [
         'cover_letter' => fake()->sentence(),
@@ -92,7 +92,7 @@ test('user should be can apply job', function () {
     $job = $company->jobs()->first();
     $attachment = UploadedFile::fake()->create('doc-attacment.pdf', 120, 'application/pdf');
 
-    $this->post(route('apply-job.store', [
+    $this->post(route('api.apply-job.store', [
         'job' => $job->uuid
     ]), [
         'cover_letter' => fake()->sentence(),

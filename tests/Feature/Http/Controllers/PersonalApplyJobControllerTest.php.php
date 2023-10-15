@@ -37,14 +37,14 @@ beforeEach(function () {
         ])
         ->create();
 
-    $this->post(route('user.login'), [
+    $this->post(route('api.user.login'), [
         'email'    => 'hanasa@hanasa.com',
         'password' => 'password'
     ])->json();
 });
 
 test('user should be can see recent applied jobs', function () {
-    $response = $this->getJson(route('personal-apply-job.index'));
+    $response = $this->getJson(route('api.personal-apply-job.index'));
 
     $response->assertStatus(200);
     $this->assertCount(2, $response['data']);
@@ -52,7 +52,7 @@ test('user should be can see recent applied jobs', function () {
 
 test('user should be can see detail applied job', function () {
     $appliedJob = ApplyJob::limit(1)->first();
-    $response = $this->getJson(route('personal-apply-job.show', [
+    $response = $this->getJson(route('api.personal-apply-job.show', [
         'applyJob' => $appliedJob->uuid
     ]));
 
