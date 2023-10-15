@@ -66,18 +66,18 @@ class PersonalJobController extends Controller
         ]);
 
         $job['posted_at'] = $request->posted_at;
-        $job['company_id'] = $request->company_id;
+        // $job['company_id'] = $request->company_id;
 
-        $checkCompaniesIsOwned = auth()->user()->companies->where('id', $request->company_id)->count() === 0;
-
-        abort_if($checkCompaniesIsOwned, response()->json([
-            'message' => 'Forbidden'
-        ], 403));
+        // $checkCompaniesIsOwned = auth()->user()->companies->where('id', $request->company_id)->count() === 0;
+        // dd($checkCompaniesIsOwned);
+        // abort_if($checkCompaniesIsOwned, response()->json([
+        //     'message' => 'Forbidden'
+        // ], 403));
 
         Job::where('uuid', $uuid)->update($job);
 
         return response()->json([
-            'meesage' => 'Job updated',
+            'message' => 'Job updated',
         ], 200);
     }
 
@@ -85,7 +85,7 @@ class PersonalJobController extends Controller
     {
 
         $isCompanyOwnedByUser = $job
-            ->company
+            ->company()
             ->where('owned_by', auth()->user()->id)
             ->get();
 

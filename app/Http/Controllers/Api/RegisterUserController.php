@@ -22,23 +22,32 @@ class RegisterUserController extends Controller
         ]);
 
         $userInfo['password'] = Hash::make($userInfo['password']);
-        $user = User::create($userInfo);
 
-        $user->profile()->create([
-            'bio'    => null,
-            'avatar' => null,
-            'cover'  => null,
-            'skills' => null,
-        ]);
+        $user = new User();
+        $user->name = $userInfo['name'];
+        $user->email = $userInfo['email'];
+        $user->username = $userInfo['username'];
+        $user->password = $userInfo['password'];
+        $user->save();
 
-        $signedUrl = URL::signedRoute('register-user.verify', [
-            'user' => $user
-        ]);
 
-        Mail::to($user->email)->send(new ConfirmRegisteredUser($signedUrl));
+        // $user->profile()->create([
+        //     'bio'    => null,
+        //     'avatar' => null,
+        //     'cover'  => null,
+        //     'skills' => null,
+        // ]);
+        /** Skip this
+         * 
+         $signedUrl = URL::signedRoute('register-user.verify', [
+             'user' => $user
+            ]);
+            
+            Mail::to($user->email)->send(new ConfirmRegisteredUser($signedUrl));
+         */
 
         return response()->json([
-            'user'    => $user,
+            // 'user'    => $user,
             // 'token'   => $user->createToken('user-token')->plainTextToken,
             'message' => 'user created'
         ], 201);

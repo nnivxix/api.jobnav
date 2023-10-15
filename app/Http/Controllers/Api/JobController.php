@@ -38,25 +38,18 @@ class JobController extends Controller
         return JobResource::collection($jobs);
     }
 
-    public function show(Job $job)
+    public function show(string $uuid)
     {
-        $applyJob = null;
+        $job = Job::query()
+            ->where('uuid', $uuid)
+            ->first();
 
-        if (auth('sanctum')->check()) {
-            $applyJob = ApplyJob::query()
-                ->where('job_id', $job->id)
-                ->where('user_id', auth('sanctum')->user()->id)
-                ->first();
-        }
-        // dd($applyJob);
-        // Benchmark::dd([
-        //     fn() => $job,
-        //     fn() => $applyJob,
-        //   ], 3);
+        abort_if(!$job, response()->json([
+            "message" => "Not Found",
+        ], 404));
 
-        return JobResource::make($job->load('company'))
-            ->additional([
-                'job_status' => $applyJob ? ApplyJobResource::make($applyJob) : null
-            ]);
+        $job->load('company', 'applyJob');
+
+        return JobResource::make($job);
     }
 }

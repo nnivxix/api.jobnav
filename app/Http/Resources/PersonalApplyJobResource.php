@@ -9,6 +9,7 @@ class PersonalApplyJobResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'uuid'           => $this->uuid,
             'cover_letter'   => $this->cover_letter,
             'attachment_url' => $this->attachment_url,
             'status'         => $this->status,

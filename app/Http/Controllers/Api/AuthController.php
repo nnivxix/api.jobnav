@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Sanctum\PersonalAccessToken;
 use App\Http\Resources\AuthenticatedUserResource;
 
 class AuthController extends Controller
@@ -20,38 +22,6 @@ class AuthController extends Controller
 
         return AuthenticatedUserResource::make($user);
     }
-    public function store(Request $request)
-    {
-        $credential = $request->validate([
-            'email'    => 'required|email',
-            'password' => 'required'
-        ]);
-
-        $authenticahed = Auth::attempt($credential);
-
-        if (!$authenticahed) {
-            return response()->json([
-                'data' => [
-                    'user'  => null,
-                    'token' => null,
-                ],
-                'messsage' => 'failed'
-            ]);
-        }
-
-        $user = $request->user();
-        $token = $request->user()
-            ->createToken('user-token', ['*'], now()->addHours(5))
-            ->plainTextToken;
-
-        return response()->json([
-            'data' => [
-                'user'  => $user,
-                'token' => $token
-            ],
-            'message' => 'success'
-        ]);
-    }
 
     public function update(Request $request)
     {
@@ -59,15 +29,15 @@ class AuthController extends Controller
             'name'     => 'required',
             'email'    => 'email',
             'username' => 'required|unique:users,username,' . auth()->id(),
-            'header'   => 'nullable|string',
+            'bio'   => 'nullable|string',
             'avatar'   => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'cover'    => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'skills'   => 'nullable|string',
         ]);
 
-        $user = auth()->user();
+        $user = User::where('id', auth()->user()->id)->first();
 
-        if($request->password) {
+        if ($request->password) {
             // change password
         }
 
@@ -82,7 +52,6 @@ class AuthController extends Controller
         ];
 
         $avatar = $request->file('avatar');
-
         if ($avatar) {
             $avatar_file_name = Str::random(40) . '.' . $avatar->getClientOriginalExtension();
 
@@ -95,7 +64,6 @@ class AuthController extends Controller
         }
 
         $cover = $request->file('cover');
-
         if ($cover) {
             $cover_file_name = Str::random(40) . '.' . $cover->getClientOriginalExtension();
 
@@ -107,24 +75,25 @@ class AuthController extends Controller
             $profileInfo['cover'] = 'users/covers/' . $cover_file_name;
         }
 
-
         $user->update($userInfo);
         $user->profile->update($profileInfo);
 
         return AuthenticatedUserResource::make($user)
             ->additional([
                 'message' => 'Profile updated successfully.'
-
             ]);
     }
     public function destroy(Request $request)
     {
-        auth()->user()
-            ->currentAccessToken()
-            ->delete();
+        $user = auth('sanctum')->user();
+        $token = $user->currentAccessToken();
 
-        return [
+        if ($token instanceof PersonalAccessToken) {
+            $token->delete();
+        }
+
+        return response()->json([
             'message' => 'Logged out'
-        ];
+        ]);
     }
 }
