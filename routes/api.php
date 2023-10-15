@@ -45,8 +45,8 @@ Route::middleware('auth:sanctum',)->group(function () {
     Route::get('/personal-jobs/{job}', [PersonalJobController::class, 'show'])->name('personal-job.show');
     Route::delete('/personal-jobs/{job}', [PersonalJobController::class, 'destroy'])->name('personal-job.destroy');
 
-    Route::get('/personal-jobs/{job}/user', [PersonalJobUserController::class, 'show']);
-    Route::put('/personal-jobs/{job}/user', [PersonalJobUserController::class, 'update']);
+    Route::get('/personal-jobs/{job}/user', [PersonalJobUserController::class, 'show'])->name('personal-job-user.show');
+    Route::put('/personal-jobs/{job}/user', [PersonalJobUserController::class, 'update'])->name('personal-job-user.update');
 
     Route::get('/personal-apply-jobs', [PersonalApplyJobController::class, 'index']);
     Route::get('/personal-apply-jobs/{applyJob}', [PersonalApplyJobController::class, 'show']);
