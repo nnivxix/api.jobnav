@@ -60,7 +60,7 @@ Route::middleware('unauthenticate')->group(function () {
 
 
 Route::get('/jobs', [JobController::class, 'index'])->name('job.index');
-Route::get('/jobs/{job}', [JobController::class, 'show']);
+Route::get('/jobs/{job}', [JobController::class, 'show'])->name('job.show');
 
 // List company
 
