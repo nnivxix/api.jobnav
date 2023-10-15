@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -34,7 +35,7 @@ class AuthController extends Controller
             'skills'   => 'nullable|string',
         ]);
 
-        $user = auth()->user();
+        $user = User::where('id', auth()->user()->id)->first();
 
         if ($request->password) {
             // change password
@@ -78,7 +79,7 @@ class AuthController extends Controller
 
 
         $user->update($userInfo);
-        $user->profile->update($profileInfo);
+        $user->profile()->update($profileInfo);
 
         return AuthenticatedUserResource::make($user)
             ->additional([
