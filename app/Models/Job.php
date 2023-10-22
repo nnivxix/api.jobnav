@@ -49,4 +49,9 @@ class Job extends Model
             ->where('user_id', auth('sanctum')->user()->id ?? null);
         // ->where('job_id', $this->id)
     }
+
+    public function isRemoteJob()
+    {
+        return boolval($this->is_remote);
+    }
 }
