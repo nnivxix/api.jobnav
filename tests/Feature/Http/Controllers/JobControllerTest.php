@@ -90,6 +90,6 @@ test('user can see only remote jobs', function () {
         'is_remote' => 1
     ]));
 
-    $response->assertStatus(200);
+    expect($response['data'][0]['is_remote'])->toBeTrue();
     expect($response['data'])->toHaveCount(1);
 });
