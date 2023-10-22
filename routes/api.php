@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\ApplyJobController;
+use App\Http\Controllers\Api\CompanyController;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\PersonalApplyJobController;
 use App\Http\Controllers\Api\PersonalJobController;
@@ -63,5 +64,6 @@ Route::get('/jobs', [JobController::class, 'index'])->name('api.job.index');
 Route::get('/jobs/{uuid}', [JobController::class, 'show'])->name('api.job.show');
 
 // List company
+Route::get('/companies', [CompanyController::class, 'index'])->name('api.company.index');
 
 Route::get('/users/{user}', [UserController::class, 'show']);
