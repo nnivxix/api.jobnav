@@ -35,11 +35,14 @@ test('user can search jobs by title', function () {
 
     $response = $this->get(route('api.job.index', [
         'q' => $job->title
-    ]));
+    ]))
+        ->json();
 
-    $response
-        ->assertJsonCount(1, 'data')
-        ->assertStatus(200);
+    expect($response['data'])->toHaveCount(1);
+    expect($response['data'][0])->toMatchArray([
+        'title'    => $job->title,
+        'location' => $job->location
+    ]);
 });
 
 test('user can search jobs by company', function () {
@@ -54,6 +57,9 @@ test('user can search jobs by company', function () {
 });
 
 test('user should be can see detail job', function () {
+    Job::first()->update([
+        'is_remote' => 1
+    ]);
     $job = Job::first();
 
     $response = $this->getJson(route('api.job.show', [
@@ -61,6 +67,7 @@ test('user should be can see detail job', function () {
     ]));
 
     $response->assertStatus(200);
+    expect($response['data']['is_remote'])->toBeTrue();
     expect($job->title)->toEqual($response['data']['title']);
 });
 
@@ -72,4 +79,17 @@ test('user should be get 404 error when input wrong uuid of job', function () {
 
     $response->assertStatus(404);
     expect($response['message'])->toEqual("Not Found");
+});
+
+test('user can see only remote jobs', function () {
+    Job::first()->update([
+        'is_remote' => 1
+    ]);
+
+    $response = $this->get(route('api.job.index', [
+        'is_remote' => 1
+    ]));
+
+    $response->assertStatus(200);
+    expect($response['data'])->toHaveCount(1);
 });

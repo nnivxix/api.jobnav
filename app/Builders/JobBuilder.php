@@ -10,4 +10,8 @@ class JobBuilder extends Builder
     {
         return $this->whereNotNull('posted_at');
     }
+    public function remoteJobs(): self
+    {
+        return $this->where('is_remote', 1);
+    }
 }

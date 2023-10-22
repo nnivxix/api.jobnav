@@ -27,6 +27,9 @@ class JobController extends Controller
                         $query->where('name', 'LIKE', "%{$request->input('q')}%");
                     });
             })
+            ->when($request->has('is_remote'), function (Builder $query) {
+                $query->remoteJobs();
+            })
             ->orderBy('posted_at', 'desc')
             ->paginate($per_page);
 
