@@ -10,11 +10,6 @@ use Illuminate\Database\Eloquent\Builder;
 
 class CompanyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         $per_page = $request->input('per_page', 15);
@@ -31,26 +26,25 @@ class CompanyController extends Controller
         return CompanyResource::collection($companies);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function show(string $slug)
     {
-        //
+        $company = Company::query()
+            ->where('slug', $slug)
+            ->whereHas('jobs')
+            ->with('jobs')
+            ->withCount('jobs')
+            ->first();
+
+        abort_if(!$company, response()->json([
+            "message" => "Not Found."
+        ], 404));
+
+        return CompanyResource::make($company);
     }
 
     /**

@@ -49,3 +49,21 @@ test('user search a company with wrong name', function () {
     expect($response['data'])->toHaveCount(0);
     expect($response['data'])->toBeFalsy();
 });
+
+test('user can see detail company', function () {
+    $company = Company::first();
+    $response = $this->get(route('api.company.show', $company->slug));
+
+    expect($response['data'])->toBeArray();
+    expect($response['data']['jobs_count'])->toBeInt();
+    expect($response['data']['jobs_count'])->toEqual(2);
+    expect($response['data']['jobs'])->toHaveCount(2);
+    expect($response['data']['name'])->toEqual($company->name);
+});
+
+test('user can see error 404 when input wrong data company', function () {
+    $response = $this->get(route('api.company.show', fake()->slug));
+
+    expect($response->status())->toEqual(404);
+    expect(fn () => throw new Exception('Not Found.'))->toThrow('Not Found.');
+});

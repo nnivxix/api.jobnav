@@ -65,5 +65,6 @@ Route::get('/jobs/{uuid}', [JobController::class, 'show'])->name('api.job.show')
 
 // List company
 Route::get('/companies', [CompanyController::class, 'index'])->name('api.company.index');
+Route::get('/companies/{slug}', [CompanyController::class, 'show'])->name('api.company.show');
 
 Route::get('/users/{user}', [UserController::class, 'show']);

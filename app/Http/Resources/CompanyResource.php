@@ -25,6 +25,7 @@ class CompanyResource extends JsonResource
             "address"    => $this->address,
             "website"    => $this->website,
             "jobs_count" => $this->jobs_count,
+            "jobs"       => JobResource::collection($this->whenLoaded('jobs'))
         ];
     }
 }
