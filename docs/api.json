@@ -1,0 +1,33 @@
+{
+    "openapi":"3.0.2",
+    "info": {
+      "title":"Jobnav API",
+      "version":"1.0",
+      "description": "Rest API Jobnav.id",
+      "contact": {
+        "name": "Hanasa",
+        "email": "adhe.hanasa@gmail.com",
+        "url": "https://github.com/nnivxix"
+      }
+    },
+    "servers": [
+      {"url":"http://localhost:8000/api"},
+      {"url":"http://localhost:8000/api/v1"}
+    ],
+    "paths": {
+        "/users" :{
+            "get" :{},
+            "post":{},
+            "put" :{}
+        }, 
+        "/logout" :{
+            "post": {}
+        },
+        "/login":{
+            "post":{}
+        },
+        "/register":{
+            "post":{}
+        }
+    }
+  }
