@@ -18,8 +18,8 @@ return new class extends Migration
             $table->uuid();
             $table->foreignId('company_id')->constrained()->onDelete('cascade');
             $table->string('title');
-            $table->string('position');
             $table->string('location');
+            $table->boolean('is_remote');
             $table->integer('salary');
             $table->longText('description');
             $table->string('categories')->nullable();

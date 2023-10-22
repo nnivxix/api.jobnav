@@ -17,12 +17,12 @@ class JobFactory extends Factory
             'uuid'        => fake()->uuid(),
             'company_id'  => random_int(1, 20),
             'title'       => fake()->jobTitle(),
-            'position'    => fake()->sentence(3, false),
             'location'    => fake()->country(),
+            'is_remote'   => false,
             'salary'      => fake()->numberBetween(200, 10000),
             'description' => fake()->sentence(56, false),
             'categories'  => str_replace(" ", ",", fake()->sentence(7)),
-            'posted_at'   => fake()->dateTimeInInterval('now', '+1 year'),
+            'posted_at'   => fake()->dateTimeInInterval('now', '+1 month'),
         ];
     }
 }

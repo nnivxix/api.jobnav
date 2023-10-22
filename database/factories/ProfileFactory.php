@@ -15,7 +15,6 @@ class ProfileFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => fn () => User::factory()->create()->id,
             'bio'     => fake()->paragraph(),
             'avatar'  => UploadedFile::fake()->image('thumbnail' . time() . '.jpg', 400, 400)->store('users/avatars', 'public'),
             'cover'   => UploadedFile::fake()->image('thumbnail' . time() . '.jpg', 800, 300)->store('users/covers', 'public'),
