@@ -19,10 +19,9 @@ class JobController extends Controller
 
         $jobs = Job::query()
             ->with('company')
-            ->whereNotNull('posted_at')
+            ->published()
             ->when($request->has('q'), function (Builder $query) use ($request) {
                 $query->where('title', 'LIKE', "%{$request->input('q')}%")
-                    ->orWhere('position', 'LIKE', "%{$request->input('q')}%")
                     ->orWhere('description', 'LIKE', "%{$request->input('q')}%")
                     ->orWhereHas('company', function (Builder $query) use ($request) {
                         $query->where('name', 'LIKE', "%{$request->input('q')}%");
