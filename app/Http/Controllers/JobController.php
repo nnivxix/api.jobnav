@@ -20,7 +20,8 @@ class JobController extends Controller
         $keyword = $request->get('keyword');
         $jobs = Job::query()
             ->with('company')
-            ->whereDate('posted_at', '<=', now())
+            ->published()
+            // ->whereDate('posted_at', '<=', now())
             ->where('title', 'LIKE', "%{$keyword}%")
             ->orWhere('description', 'LIKE', "%{$keyword}%")
             ->paginate(16);

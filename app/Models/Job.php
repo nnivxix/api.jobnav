@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Builders\JobBuilder;
 use App\Models\Concerns\HasApplyJobs;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
@@ -48,5 +49,15 @@ class Job extends Model
         return $this->hasOne(ApplyJob::class, 'job_id', 'id')
             ->where('user_id', auth('sanctum')->user()->id ?? null);
         // ->where('job_id', $this->id)
+    }
+
+    public function isRemoteJob()
+    {
+        return boolval($this->is_remote);
+    }
+
+    public function newEloquentBuilder($query): JobBuilder
+    {
+        return new JobBuilder($query);
     }
 }
