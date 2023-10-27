@@ -5,51 +5,33 @@ namespace App\Http\Controllers\Api;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RegisterUserRequest;
 use App\Mail\ConfirmRegisteredUser;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 
 class RegisterUserController extends Controller
 {
-    public function store(Request $request)
+    public function store(RegisterUserRequest $request): JsonResponse
     {
-        $userInfo = $request->validate([
-            'name'     => 'required',
-            'username' => 'required|unique:users',
-            'email'    => 'required|email|unique:users',
-            'password' => 'required',
-        ]);
+        $userInfo = $request->validated();
 
-        $userInfo['password'] = Hash::make($userInfo['password']);
+        $user = new User($userInfo);
+        $user->password = Hash::make($userInfo['password']);
 
-        $user = new User();
-        $user->name = $userInfo['name'];
-        $user->email = $userInfo['email'];
-        $user->username = $userInfo['username'];
-        $user->password = $userInfo['password'];
-        $user->save();
-
-
-        // $user->profile()->create([
-        //     'bio'    => null,
-        //     'avatar' => null,
-        //     'cover'  => null,
-        //     'skills' => null,
-        // ]);
         /** Skip this
          * 
          $signedUrl = URL::signedRoute('register-user.verify', [
              'user' => $user
             ]);
             
-            Mail::to($user->email)->send(new ConfirmRegisteredUser($signedUrl));
+        Mail::to($user->email)->send(new ConfirmRegisteredUser($signedUrl));
          */
 
         return response()->json([
-            // 'user'    => $user,
-            // 'token'   => $user->createToken('user-token')->plainTextToken,
-            'message' => 'user created'
+            'message' => 'User created.'
         ], 201);
     }
 
