@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AuthenticatedUserRequest;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -16,28 +17,20 @@ class AuthController extends Controller
 {
     public function index()
     {
-
-        /** @var \App\Models\User $user **/
-        $user = auth()
-            ->user()
-            ->load('experiences', 'jobs');
+        /** 
+         * @var \App\Models\User $user
+         */
+        $user = auth()->user();
+        $user->loadMissing('experiences', 'jobs');
 
         return AuthenticatedUserResource::make($user);
     }
 
-    public function update(Request $request)
+    public function update(AuthenticatedUserRequest $request)
     {
-        $request->validate([
-            'name'     => 'required',
-            'email'    => 'email',
-            'username' => 'required|unique:users,username,' . auth()->id(),
-            'bio'   => 'nullable|string',
-            'avatar'   => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'cover'    => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'skills'   => 'nullable|string',
-        ]);
+        $request->validated();
 
-        $user = User::where('id', auth()->user()->id)->first();
+        $user = User::firstWhere('id', auth()->id());
 
         if ($request->password) {
             // change password

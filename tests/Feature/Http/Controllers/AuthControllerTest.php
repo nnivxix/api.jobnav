@@ -6,27 +6,19 @@ use Illuminate\Http\UploadedFile;
 test('user should be get detail data', function () {
     $user = User::factory()->create();
 
-    $this->actingAs($user)
-        ->get(route('api.user.current'))
-        ->assertJsonStructure([
-            'data' => [
-                'id',
-                'email',
-                'username',
-            ],
-        ])
-        ->assertStatus(200);
+    $response = $this->actingAs($user)
+        ->get(route('api.user.current'));
+
+    expect($response['data'])->toHaveKeys(['id', 'email', 'username', 'jobs', 'experiences']);
 });
 
-test('user should be failed detail data', function () {
+test('user should be failed get detail data', function () {
     $response = $this->get(route('api.user.current'),  [
         'Accept' => "application/json"
     ]);
 
-    $response->assertStatus(401)
-        ->assertJson([
-            'message' => 'Unauthenticated.',
-        ]);
+    expect($response->status())->toBe(401);
+    expect($response['message'])->toBe('Unauthenticated.');
 });
 
 test('user should be failed log out', function () {
@@ -34,24 +26,20 @@ test('user should be failed log out', function () {
         'Accept' => "application/json"
     ]);
 
-    $response
-        ->assertStatus(401)
-        ->assertJson([
-            'message' => 'Unauthenticated.',
-        ]);
+    expect($response->status())->toBe(401);
+    expect($response['message'])->toBe('Unauthenticated.');
 });
 
 test('user should be success log out', function () {
     $user = User::factory()->create();
 
-    $this->actingAs($user)
+    $response = $this->actingAs($user)
         ->post(route('api.user.logout'), [
             'Authorization' => "Bearer " . $user['token']
-        ])
-        ->assertJson([
-            'message' => 'Logged out'
-        ])
-        ->assertStatus(200);
+        ]);
+
+    expect($response['message'])->toBe('Logged out.');
+    expect($response->status())->toBe(200);
 });
 
 test('user should be can update profile username', function () {
