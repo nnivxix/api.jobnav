@@ -15,7 +15,6 @@ class PersonalApplyJobResource extends JsonResource
             'status'         => $this->status,
             'updated_at'     => $this->updated_at,
             'job'            => JobResource::make($this->whenLoaded('job')),
-            'company'        => CompanyResource::make($this->whenLoaded('job.company')),
         ];
     }
 }

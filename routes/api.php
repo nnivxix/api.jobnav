@@ -50,7 +50,7 @@ Route::middleware('auth:sanctum',)->group(function () {
     Route::put('/personal-jobs/{job}/user', [PersonalJobUserController::class, 'update'])->name('api.personal-job-user.update');
 
     Route::get('/personal-apply-jobs', [PersonalApplyJobController::class, 'index'])->name('api.personal-apply-job.index');
-    Route::get('/personal-apply-jobs/{applyJob}', [PersonalApplyJobController::class, 'show'])->name('api.personal-apply-job.show');
+    Route::get('/personal-apply-jobs/{uuid}', [PersonalApplyJobController::class, 'show'])->name('api.personal-apply-job.show');
 });
 
 Route::middleware('unauthenticate')->group(function () {

@@ -41,7 +41,7 @@ class JobController extends Controller
             "message" => "Not Found",
         ], 404));
 
-        $job->load('company', 'applyJob');
+        $job->loadMissing('company', 'applyJob');
 
         return JobResource::make($job);
     }
