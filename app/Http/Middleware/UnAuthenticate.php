@@ -10,11 +10,7 @@ class UnAuthenticate
     public function handle(Request $request, Closure $next)
     {
         if (auth('sanctum')->check()) {
-            return response()->json([
-                'errors' => [
-                    'message' => 'You have logged in'
-                ]
-            ], 403);
+            return response()->json(['errors' => 'You have logged in.'], 403);
         }
         return $next($request);
     }
