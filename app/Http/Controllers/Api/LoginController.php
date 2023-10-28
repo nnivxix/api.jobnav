@@ -22,6 +22,10 @@ class LoginController extends Controller
                 ]);
         }
 
-        return response()->json(['errors' => "Email or password is wrong."], 401);
+        return response()->json([
+            'errors' => [
+                "message" => "Email or password is wrong."
+            ]
+        ], 401);
     }
 }

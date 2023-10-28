@@ -16,6 +16,8 @@ class AuthController extends Controller
 {
     public function index()
     {
+
+        /** @var \App\Models\User $user **/
         $user = auth()
             ->user()
             ->load('experiences', 'jobs');
@@ -85,6 +87,9 @@ class AuthController extends Controller
     }
     public function destroy(Request $request)
     {
+        /** 
+         * @var \App\Models\User $user
+         */
         $user = auth('sanctum')->user();
         $token = $user->currentAccessToken();
 
@@ -93,7 +98,7 @@ class AuthController extends Controller
         }
 
         return response()->json([
-            'message' => 'Logged out'
+            'message' => 'Logged out.'
         ]);
     }
 }

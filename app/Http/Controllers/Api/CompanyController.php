@@ -41,7 +41,9 @@ class CompanyController extends Controller
             ->first();
 
         abort_if(!$company, response()->json([
-            "message" => "Not Found."
+            "errors" => [
+                "message" => "Not Found."
+            ]
         ], 404));
 
         return CompanyResource::make($company);
