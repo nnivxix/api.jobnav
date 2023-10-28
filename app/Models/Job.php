@@ -48,7 +48,21 @@ class Job extends Model
     {
         return $this->hasOne(ApplyJob::class, 'job_id', 'id')
             ->where('user_id', auth('sanctum')->user()->id ?? null);
-        // ->where('job_id', $this->id)
+    }
+
+    /**
+     * checkAuthorization
+     * is user has applied the job or owner of the job?
+     * this function should be set on policy
+     */
+    public function checkAuthorization()
+    {
+        abort_if(
+            $this->isAppliedByUser || $this->company->owned_by == auth()->user()->id,
+            response()->json([
+                'message' => 'Forbidden.'
+            ], 403)
+        );
     }
 
     public function isRemoteJob()

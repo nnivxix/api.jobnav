@@ -12,8 +12,8 @@ class PersonalApplyJobController extends Controller
     public function index()
     {
         $applyJobs = ApplyJob::query()
-            ->with('job')
-            ->where('user_id', auth()->user()->id)->get();
+            ->where('user_id', auth()->user()->id)
+            ->get();
 
         return PersonalApplyJobResource::collection($applyJobs);
     }

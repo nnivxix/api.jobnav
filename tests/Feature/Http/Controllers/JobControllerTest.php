@@ -81,7 +81,7 @@ test('user should be get 404 error when input wrong uuid of job', function () {
     expect($response['message'])->toEqual("Not Found");
 });
 
-test('user can see only remote jobs', function () {
+test('user can filter remote jobs', function () {
     Job::first()->update([
         'is_remote' => 1
     ]);
