@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('company_id')->constrained()->onDelete('cascade');
             $table->string('title');
             $table->string('location');
-            $table->boolean('is_remote');
+            $table->boolean('is_remote')->default(0);
             $table->integer('salary');
             $table->longText('description');
             $table->string('categories')->nullable();

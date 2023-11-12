@@ -56,4 +56,9 @@ class Company extends Model
     {
         return $this->belongsTo(User::class, 'owned_by', 'id');
     }
+
+    public function isOwned($id): bool
+    {
+        return auth()->user()->companies->where('id', $id)->count() > 0;
+    }
 }

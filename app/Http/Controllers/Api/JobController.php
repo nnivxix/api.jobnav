@@ -33,13 +33,8 @@ class JobController extends Controller
         return JobResource::collection($jobs);
     }
 
-    public function show(string $uuid)
+    public function show(Job $job)
     {
-        $job = Job::firstWhere('uuid', $uuid);
-
-        abort_if(!$job, response()->json([
-            "message" => "Not Found",
-        ], 404));
 
         $job->loadMissing('company', 'applyJob');
 

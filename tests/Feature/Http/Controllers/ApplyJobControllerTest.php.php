@@ -74,9 +74,7 @@ test('user should be cannot apply job to own job', function () {
 
     $attachment = UploadedFile::fake()->create('doc-attacment.pdf', 120, 'application/pdf');
 
-    $response = $this->post(route('api.apply-job.store', [
-        'job' => $job->uuid
-    ]), [
+    $response = $this->post(route('api.apply-job.store', $job), [
         'cover_letter' => fake()->sentence(),
         'attachment' => $attachment
     ]);

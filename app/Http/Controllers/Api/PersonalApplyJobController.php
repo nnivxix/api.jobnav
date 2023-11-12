@@ -17,17 +17,8 @@ class PersonalApplyJobController extends Controller
         return PersonalApplyJobResource::collection($applyJobs);
     }
 
-    public function show(string $uuid)
+    public function show(ApplyJob $applyJob)
     {
-        $applyJob = ApplyJob::firstWhere('uuid', $uuid);
-
-        abort_if(
-            !$applyJob,
-            response()->json([
-                'message' => 'Job Not Found.'
-            ], 403)
-        );
-
         $applyJob->load('job', 'job.company');
 
         return PersonalApplyJobResource::make($applyJob);

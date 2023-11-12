@@ -53,9 +53,7 @@ test('user should be can see recent applied jobs', function () {
 test('user should be can see detail applied job', function () {
     $appliedJob = ApplyJob::first();
 
-    $response = $this->getJson(route('api.personal-apply-job.show', [
-        'uuid' => $appliedJob->uuid
-    ]));
+    $response = $this->getJson(route('api.personal-apply-job.show',  $appliedJob));
 
     expect($response['data'])->toHaveKeys([
         'uuid',
@@ -68,9 +66,7 @@ test('user should be can see detail applied job', function () {
 });
 
 test('user should be get 404 error when see detail applied job', function () {
-    $response = $this->getJson(route('api.personal-apply-job.show', [
-        'uuid' => fake()->uuid
-    ]));
+    $response = $this->getJson(route('api.personal-apply-job.show', fake()->uuid));
 
-    expect($response['message'])->toBe('Job Not Found.');
+    expect($response['message'])->toBe('Resource Not Found.');
 });

@@ -62,8 +62,10 @@ test('user can see detail company', function () {
 });
 
 test('user can see error 404 when input wrong data company', function () {
-    $response = $this->get(route('api.company.show', fake()->slug));
+    $response = $this->getJson(route('api.company.show', [
+        'company' => fake()->slug
+    ]));
 
     expect($response->status())->toEqual(404);
-    expect(fn () => throw new Exception('Not Found.'))->toThrow('Not Found.');
+    expect($response['message'])->toEqual('Resource Not Found.');
 });
