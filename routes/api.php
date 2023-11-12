@@ -27,6 +27,7 @@ use App\Http\Controllers\Api\PersonalJobUserController;
 |
 */
 
+Auth::loginUsingId(5);
 Route::middleware('auth:sanctum',)->group(function () {
     Route::get('/users', [AuthController::class, 'index'])->name('api.user.current');
     Route::put('/users', [AuthController::class, 'update'])->name('api.user.update');
@@ -42,7 +43,7 @@ Route::middleware('auth:sanctum',)->group(function () {
 
     Route::get('/personal-jobs', [PersonalJobController::class, 'index'])->name('api.personal-job.index');
     Route::post('/personal-jobs', [PersonalJobController::class, 'store'])->name('api.personal-job.store');
-    Route::put('/personal-jobs/{uuid}', [PersonalJobController::class, 'update'])->name('api.personal-job.update');
+    Route::put('/personal-jobs/{job}', [PersonalJobController::class, 'update'])->name('api.personal-job.update');
     Route::get('/personal-jobs/{job}', [PersonalJobController::class, 'show'])->name('api.personal-job.show');
     Route::delete('/personal-jobs/{job}', [PersonalJobController::class, 'destroy'])->name('api.personal-job.destroy');
 
@@ -61,10 +62,10 @@ Route::middleware('unauthenticate')->group(function () {
 
 
 Route::get('/jobs', [JobController::class, 'index'])->name('api.job.index');
-Route::get('/jobs/{uuid}', [JobController::class, 'show'])->name('api.job.show');
+Route::get('/jobs/{job}', [JobController::class, 'show'])->name('api.job.show');
 
 // List company
 Route::get('/companies', [CompanyController::class, 'index'])->name('api.company.index');
-Route::get('/companies/{slug}', [CompanyController::class, 'show'])->name('api.company.show');
+Route::get('/companies/{company}', [CompanyController::class, 'show'])->name('api.company.show');
 
 Route::get('/users/{user}', [UserController::class, 'show']);

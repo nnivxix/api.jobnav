@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Resources\JobResource;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PersonalJobRequest;
 use App\Http\Resources\PersonalJobResource;
 
 class PersonalJobController extends Controller
@@ -19,30 +20,23 @@ class PersonalJobController extends Controller
         return JobResource::collection($posts);
     }
 
-    public function store(Request $request)
+    public function store(PersonalJobRequest $request)
     {
-        $job = $request->validate([
-            'title'       => 'required',
-            'description' => 'required',
-            'location'    => 'required',
-            'position'    => 'required',
-            'salary'      => 'numeric',
-            'categories'  => 'string',
-        ]);
+        $job = $request->validated();
 
         $job['company_id'] = $request->company_id;
         $job['uuid'] = Str::uuid();
         $checkCompaniesIsOwned = auth()->user()->companies->where('id', $request->company_id)->count() === 0;
 
         abort_if($checkCompaniesIsOwned, response()->json([
-            'message' => 'Forbidden'
+            'message' => 'Forbidden.'
         ], 403));
 
         $post = new Job($job);
         $post->save();
 
         return response()->json([
-            'meesage' => 'job created',
+            'meesage' => 'Job created.',
             'uuid'    => $post->uuid
         ], 201);
     }
@@ -54,30 +48,27 @@ class PersonalJobController extends Controller
         return PersonalJobResource::make($job);
     }
 
-    public function update(Request $request, $uuid)
+    public function update(PersonalJobRequest $request, Job $job)
     {
-        $job = $request->validate([
-            'title'       => 'required',
-            'description' => 'required',
-            'location'    => 'required',
-            'position'    => 'required',
-            'salary'      => 'numeric',
-            'categories'  => 'string',
-        ]);
+        $validated = $request->validated();
 
-        $job['posted_at'] = $request->posted_at;
-        // $job['company_id'] = $request->company_id;
+        $validated['posted_at'] = $request->posted_at;
+        /**TODO
+         * Make a Policy to filter is job->company is owned
+         * 
+         * */
 
-        // $checkCompaniesIsOwned = auth()->user()->companies->where('id', $request->company_id)->count() === 0;
-        // dd($checkCompaniesIsOwned);
-        // abort_if($checkCompaniesIsOwned, response()->json([
-        //     'message' => 'Forbidden'
-        // ], 403));
+        abort_if(
+            !$job->company->isOwned($request->company_id),
+            response()->json([
+                'message' => 'Forbidden.'
+            ], 403)
+        );
 
-        Job::where('uuid', $uuid)->update($job);
+        $job->update($validated);
 
         return response()->json([
-            'message' => 'Job updated',
+            'message' => 'Job updated.',
         ], 200);
     }
 
@@ -90,16 +81,16 @@ class PersonalJobController extends Controller
             ->get();
 
         abort_if(
-            $isCompanyOwnedByUser->count() == 0,
+            !$isCompanyOwnedByUser,
             response()->json([
-                'message' => 'Forbidden'
+                'message' => 'Forbidden.'
             ], 403)
         );
 
         $job->delete();
 
         return response()->json([
-            'message' => 'Job deleted'
+            'message' => 'Job deleted.'
         ], 200);
     }
 }

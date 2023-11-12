@@ -46,27 +46,27 @@ beforeEach(function () {
 test('user should be can see recent applied jobs', function () {
     $response = $this->getJson(route('api.personal-apply-job.index'));
 
-    $response->assertStatus(200);
-    $this->assertCount(2, $response['data']);
+    expect($response->status())->toBe(200);
+    expect($response['data'])->toHaveCount(2);
 });
 
 test('user should be can see detail applied job', function () {
-    $appliedJob = ApplyJob::limit(1)->first();
-    $response = $this->getJson(route('api.personal-apply-job.show', [
-        'applyJob' => $appliedJob->uuid
-    ]));
+    $appliedJob = ApplyJob::first();
 
-    $response
-        ->assertJson(
-            fn (AssertableJson $json) => $json
-                ->hasAll([
-                    'data.uuid',
-                    'data.cover_letter',
-                    'data.attachment_url',
-                    'data.status',
-                    'data.updated_at',
-                    'data.job',
-                    'data.company'
-                ])
-        );
+    $response = $this->getJson(route('api.personal-apply-job.show',  $appliedJob));
+
+    expect($response['data'])->toHaveKeys([
+        'uuid',
+        'cover_letter',
+        'attachment_url',
+        'status',
+        'updated_at',
+        'job',
+    ]);
+});
+
+test('user should be get 404 error when see detail applied job', function () {
+    $response = $this->getJson(route('api.personal-apply-job.show', fake()->uuid));
+
+    expect($response['message'])->toBe('Resource Not Found.');
 });

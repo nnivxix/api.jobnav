@@ -110,7 +110,7 @@ class PersonalCompanyController extends Controller
         $company->update($validated);
 
         return response()->json([
-            'message' => 'company updated'
+            'message' => 'Company updated.'
         ]);
     }
 
@@ -119,7 +119,7 @@ class PersonalCompanyController extends Controller
         abort_if(
             $company->owned_by !== auth()->user()->id,
             response()->json([
-                'message' => 'Forbidden'
+                'message' => 'Forbidden.'
             ], 403)
         );
 
@@ -134,7 +134,7 @@ class PersonalCompanyController extends Controller
         $company->delete();
 
         return response()->json([
-            'message' => 'Company deleted'
+            'message' => 'Company deleted.'
         ], 200);
     }
 }

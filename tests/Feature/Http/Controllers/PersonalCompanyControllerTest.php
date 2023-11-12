@@ -33,29 +33,23 @@ test('user should be can see own companies', function () {
     $response = $this->get(route('api.personal-company.index'))
         ->json();
 
-    $this->assertCount(3, $response['data']);
+    expect($response['data'])->toHaveCount(3);
 });
 
-test('user should be can create a company', function () {
-})->skip(true, "I think a company should be register by admin");
 
 test('user should be can see detail a owned company', function () {
-
     $company = Company::first();
-    $response = $this->get(route('api.personal-company.show', [
-        'company' => $company->slug
-    ]));
 
-    $this->assertEquals($company->name, $response['data']['name']);
+    $response = $this->get(route('api.personal-company.show',  $company));
+
+    expect($company->name)->toEqual($response['data']['name']);
 });
 
 test('user should be can update owned personal company', function () {
     $company = Company::where('owned_by', auth()->user()->id)->first();
 
     $response = $this->put(
-        route('api.personal-company.update', [
-            'company' => $company->slug
-        ]),
+        route('api.personal-company.update', $company),
         [
             'name'        => 'company edited',
             'title'       => 'company edited',
@@ -65,11 +59,12 @@ test('user should be can update owned personal company', function () {
             'salary'      => 2345,
         ]
     );
-    $response
-        ->assertStatus(200)
-        ->assertJson([
-            'message' => 'company updated'
-        ]);
+
+    expect($response->decodeResponseJson()->json)
+        ->json()
+        ->message->toBe("Company updated.")
+        ->and($response->status())
+        ->toBe(200);
 });
 
 test('user should be can delete owned company', function () {
@@ -83,7 +78,7 @@ test('user should be can delete owned company', function () {
 
     $response
         ->assertJson([
-            'message' => 'Company deleted'
+            'message' => 'Company deleted.'
         ])
         ->assertStatus(200);
     $this->assertModelMissing($company);

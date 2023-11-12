@@ -62,9 +62,7 @@ test('user should be can see detail job', function () {
     ]);
     $job = Job::first();
 
-    $response = $this->getJson(route('api.job.show', [
-        'uuid' => $job->uuid
-    ]));
+    $response = $this->getJson(route('api.job.show', $job));
 
     $response->assertStatus(200);
     expect($response['data']['is_remote'])->toBeTrue();
@@ -74,14 +72,14 @@ test('user should be can see detail job', function () {
 test('user should be get 404 error when input wrong uuid of job', function () {
 
     $response = $this->getJson(route('api.job.show', [
-        'uuid' => fake()->uuid()
+        'job' => fake()->uuid()
     ]));
 
     $response->assertStatus(404);
-    expect($response['message'])->toEqual("Not Found");
+    expect($response['message'])->toBe("Resource Not Found.");
 });
 
-test('user can see only remote jobs', function () {
+test('user can filter remote jobs', function () {
     Job::first()->update([
         'is_remote' => 1
     ]);

@@ -17,14 +17,14 @@ class CompanyResource extends JsonResource
         return [
             "name"       => $this->name,
             "slug"       => $this->slug,
-            "avatar"     => $this->avatar,
-            "cover"      => $this->cover,
+            "avatar"     => $this->avatar_url,
+            "cover"      => $this->cover_url,
             "owner"      => UserResource::make($this->owner),
             "about"      => $this->about,
             "location"   => $this->location,
             "address"    => $this->address,
             "website"    => $this->website,
-            "jobs_count" => $this->jobs_count,
+            "jobs_count" => $this->whenCounted('jobs_count'),
             "jobs"       => JobResource::collection($this->whenLoaded('jobs'))
         ];
     }

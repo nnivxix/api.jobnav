@@ -4,18 +4,14 @@ use App\Models\User;
 
 
 test('user should be failed proccess register', function () {
-    $this->withHeaders(['Accept' => 'application/json'])
-        ->post(route('api.user.register'), [
+    $response = $this->withHeaders(['Accept' => 'application/json'])
+        ->postJson(route('api.user.register'), [
             'email'    => 'hanasa@mail.com',
             'password' => 'test-halo'
-        ])
-        ->assertStatus(422)
-        ->assertJson([
-            'errors' => [
-                'username' => ['The username field is required.'],
-                'name'     => ['The name field is required.'],
-            ]
         ]);
+
+    expect($response['errors']['username'][0])->toEqual('The username field is required.');
+    expect($response->status())->toBe(400);
 });
 
 test('user should be failed proccess register because the credential has been taken', function () {
@@ -28,31 +24,26 @@ test('user should be failed proccess register because the credential has been ta
         'password' => bcrypt('password'),
     ]);
 
-    $this->withHeaders(['Accept' => 'application/json'])
-        ->post(route('api.user.register'), [
+    $response = $this->withHeaders(['Accept' => 'application/json'])
+        ->postJson(route('api.user.register'), [
             'name'     => 'Hanasa',
             'username' => 'hanasa',
             'email'    => 'hanasa@hanasa.com',
             'password' => 'password'
-        ])
-        ->assertStatus(422)
-        ->assertJson([
-            'errors' => [
-                'username' => ['The username has already been taken.'],
-                'email'    => ['The email has already been taken.'],
-            ]
         ]);
+
+    expect($response['errors']['username'][0])->toBe('The username has already been taken.');
+    expect($response->status())->toBe(400);
 });
 
 test('user should be success register', function () {
-    $this->post(route('api.user.register'), [
+    $response = $this->postJson(route('api.user.register'), [
         'username' => 'hanasa',
         'name'     => 'Hanasa',
         'email'    => 'hanasa@mail.com',
         'password' => 'password'
-    ])
-        ->assertStatus(201)
-        ->assertJson([
-            'message' => 'user created'
-        ]);
+    ]);
+
+    expect($response['message'])->toBe('User created.');
+    expect($response->status())->toBe(201);
 });

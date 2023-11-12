@@ -3,12 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Job;
-use App\Models\ApplyJob;
 use Illuminate\Http\Request;
-use Illuminate\Support\Benchmark;
 use App\Http\Resources\JobResource;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ApplyJobResource;
 use Illuminate\Database\Eloquent\Builder;
 
 class JobController extends Controller
@@ -33,24 +30,13 @@ class JobController extends Controller
             ->orderBy('posted_at', 'desc')
             ->paginate($per_page);
 
-        // Benchmark::dd([
-        //     fn() => $jobs
-        // ]);
-
         return JobResource::collection($jobs);
     }
 
-    public function show(string $uuid)
+    public function show(Job $job)
     {
-        $job = Job::query()
-            ->where('uuid', $uuid)
-            ->first();
 
-        abort_if(!$job, response()->json([
-            "message" => "Not Found",
-        ], 404));
-
-        $job->load('company', 'applyJob');
+        $job->loadMissing('company', 'applyJob');
 
         return JobResource::make($job);
     }

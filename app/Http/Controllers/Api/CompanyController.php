@@ -31,18 +31,11 @@ class CompanyController extends Controller
         //
     }
 
-    public function show(string $slug)
+    public function show(Company $company)
     {
-        $company = Company::query()
-            ->where('slug', $slug)
-            ->whereHas('jobs')
-            ->with('jobs')
-            ->withCount('jobs')
-            ->first();
-
-        abort_if(!$company, response()->json([
-            "message" => "Not Found."
-        ], 404));
+        $company
+            ->loadCount('jobs')
+            ->load('jobs');
 
         return CompanyResource::make($company);
     }

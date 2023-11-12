@@ -43,7 +43,7 @@ beforeEach(function () {
     $this->post(route('api.user.login'), [
         'email'    => 'hanasa@hanasa.com',
         'password' => 'password'
-    ])->json();
+    ]);
 });
 
 test('user should be get detail applicant', function () {

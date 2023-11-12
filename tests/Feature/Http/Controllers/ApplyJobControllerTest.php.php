@@ -45,7 +45,7 @@ beforeEach(function () {
 });
 
 test('user should be cannot apply job twice', function () {
-    $company = Company::where('owned_by', '!=', auth()->user()->id)->get()->first();
+    $company = Company::firstWhere('owned_by', '!=', auth()->user()->id);
     $job = $company->jobs()->first();
 
     $attachment = UploadedFile::fake()->create('doc-attacment.pdf', 120, 'application/pdf');
@@ -57,16 +57,15 @@ test('user should be cannot apply job twice', function () {
         'attachment' => $attachment
     ]);
 
-    $this->post(route('api.apply-job.store', [
+    $response = $this->post(route('api.apply-job.store', [
         'job' => $job?->uuid
     ]), [
         'cover_letter' => fake()->sentence(),
         'attachment' => $attachment
-    ])
-        ->assertStatus(403)
-        ->assertJson([
-            'message' => 'Forbidden'
-        ]);
+    ]);
+
+    expect($response->status())->toBe(403);
+    expect($response['message'])->toBe('Forbidden.');
 });
 
 test('user should be cannot apply job to own job', function () {
@@ -75,31 +74,25 @@ test('user should be cannot apply job to own job', function () {
 
     $attachment = UploadedFile::fake()->create('doc-attacment.pdf', 120, 'application/pdf');
 
-    $this->post(route('api.apply-job.store', [
-        'job' => $job->uuid
-    ]), [
+    $response = $this->post(route('api.apply-job.store', $job), [
         'cover_letter' => fake()->sentence(),
         'attachment' => $attachment
-    ])
-        ->assertStatus(403)
-        ->assertJson([
-            'message' => 'Forbidden'
-        ]);
+    ]);
+
+    expect($response->status())->toBe(403);
+    expect($response['message'])->toBe('Forbidden.');
 });
 
 test('user should be can apply job', function () {
-    $company = Company::where('owned_by', '!=', auth()->user()->id)->get()->first();
+    $company = Company::firstWhere('owned_by', '!=', auth()->user()->id);
     $job = $company->jobs()->first();
     $attachment = UploadedFile::fake()->create('doc-attacment.pdf', 120, 'application/pdf');
 
-    $this->post(route('api.apply-job.store', [
-        'job' => $job->uuid
-    ]), [
+    $response = $this->post(route('api.apply-job.store',  $job), [
         'cover_letter' => fake()->sentence(),
         'attachment' => $attachment
-    ])
-        ->assertStatus(201)
-        ->assertJson([
-            'message' => 'Job Applied'
-        ]);
+    ]);
+
+    expect($response->status())->toBe(201);
+    expect($response['message'])->toBe('Job Applied.');
 });

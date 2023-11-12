@@ -2,26 +2,24 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\StatusJobEnum;
 use App\Models\Job;
 use App\Models\ApplyJob;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ApplyJobRequest;
 
 class ApplyJobController extends Controller
 {
-    public function store(Request $request, Job $job)
+    public function store(ApplyJobRequest $request, Job $job)
     {
-        $validate = $request->validate([
-            'cover_letter' => 'required',
-            'attachment'   => 'required|file|max:2000|mimes:pdf'
-        ]);
+        $validate = $request->validated();
 
-        abort_if($job->isAppliedByUser || $job->company->owned_by == auth()->user()->id, response()->json([
-            'message' => 'Forbidden'
-        ], 403));
+        $job->checkAuthorization();
 
         $attachment = $request->file('attachment');
+
         if ($attachment) {
             $attachment_name = Str::random(20) . "." . $attachment->getClientOriginalExtension();
             $attachment->storePubliclyAs('jobs/apply/', $attachment_name, 'public');
@@ -31,12 +29,12 @@ class ApplyJobController extends Controller
         $validate['job_id'] = $job->id;
         $validate['user_id'] = auth()->user()->id;
         $validate['uuid'] = Str::uuid();
+        $validate['status'] = StatusJobEnum::Pending;
 
-        $job = new ApplyJob($validate);
-        $job->save();
+        $job = ApplyJob::create($validate);
 
         return response()->json([
-            'message' => 'Job Applied'
+            'message' => 'Job Applied.'
         ], 201);
     }
 }
