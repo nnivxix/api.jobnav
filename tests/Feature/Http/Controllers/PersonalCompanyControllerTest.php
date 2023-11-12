@@ -62,7 +62,7 @@ test('user should be can update owned personal company', function () {
 
     expect($response->decodeResponseJson()->json)
         ->json()
-        ->message->toBe("company updated")
+        ->message->toBe("Company updated.")
         ->and($response->status())
         ->toBe(200);
 });
@@ -78,7 +78,7 @@ test('user should be can delete owned company', function () {
 
     $response
         ->assertJson([
-            'message' => 'Company deleted'
+            'message' => 'Company deleted.'
         ])
         ->assertStatus(200);
     $this->assertModelMissing($company);
