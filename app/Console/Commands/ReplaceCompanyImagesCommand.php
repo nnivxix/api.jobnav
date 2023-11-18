@@ -59,6 +59,7 @@ class ReplaceCompanyImagesCommand extends Command
             $bar->advance();
         }
         $bar->finish();
+        $this->info("\nDone");
         return Command::SUCCESS;
     }
 }
