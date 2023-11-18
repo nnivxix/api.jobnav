@@ -54,11 +54,11 @@ class ImageUnsplash extends Command
 
         foreach ($profiles as $index => $profile) {
             $avatar_url = $randomPeople[rand(1, 30) - 1]->urls->small;
-            $avatar_path = 'avatars/' .  Str::random(40) . '.jpg';
+            $avatar_path = 'users/avatars/' .  Str::random(40) . '.jpg';
             Storage::disk('public')->put($avatar_path, file_get_contents($avatar_url));
 
             $cover = $coverImages[rand(1, 30) - 1]->urls->regular;
-            $cover_path = 'covers/' .  Str::random(40) . '.jpg';
+            $cover_path = 'users/covers/' .  Str::random(40) . '.jpg';
             Storage::disk('public')->put($cover_path, file_get_contents($cover));
 
             $profile->update([
