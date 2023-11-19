@@ -1,4 +1,4 @@
-# Jobnav.id API
+# API Jobnav
 
 ![jobnav banner](./designs/Jobnav_id.jpg)
 
