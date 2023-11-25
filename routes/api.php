@@ -54,10 +54,11 @@ Route::middleware('auth:sanctum',)->group(function () {
     Route::get('/personal-apply-jobs/{applyJob}', [PersonalApplyJobController::class, 'show'])->name('api.personal-apply-job.show');
 });
 
+Route::post('/login', [LoginController::class, 'store'])->name('api.user.login');
+Route::post('/register', [RegisterUserController::class, 'store'])->name('api.user.register');
+Route::get('/verify/{user}', [RegisterUserController::class, 'verify'])->name('api.register-user.verify');
+
 Route::middleware('unauthenticate')->group(function () {
-    Route::post('/login', [LoginController::class, 'store'])->name('api.user.login');
-    Route::post('/register', [RegisterUserController::class, 'store'])->name('api.user.register');
-    Route::get('/verify/{user}', [RegisterUserController::class, 'verify'])->name('api.register-user.verify');
 });
 
 
