@@ -80,6 +80,9 @@ class AuthController extends Controller
     }
     public function destroy(Request $request)
     {
+        // Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         /** 
          * @var \App\Models\User $user
          */
@@ -89,6 +92,7 @@ class AuthController extends Controller
         if ($token instanceof PersonalAccessToken) {
             $token->delete();
         }
+
 
         return response()->json([
             'message' => 'Logged out.'

@@ -15,11 +15,10 @@ class LoginController extends Controller
             $user = auth()->user();
             $token = $user->createToken('authToken')->plainTextToken;
 
-            return LoginResource::make($user)
-                ->additional([
-                    'token'   => $token,
-                    'message' => 'Login successful.'
-                ]);
+            return response()->json([
+                'user' => LoginResource::make($user),
+                'token'   => $token,
+            ]);
         }
 
         return response()->json([
