@@ -22,7 +22,7 @@ trait HasApplyJobs
     {
         return Attribute::make(
             get: function () {
-                if (auth('sanctum')->check()) {
+                if (auth('sanctum')->check() || auth()->check()) {
                     return $this->applicants->contains(auth('sanctum')->user());
                 } else {
                     return false;

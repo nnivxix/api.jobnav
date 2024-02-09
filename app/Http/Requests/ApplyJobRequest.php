@@ -14,6 +14,7 @@ class ApplyJobRequest extends FormRequest
     public function authorize()
     {
         return true;
+        // return !$this->isAppliedByUser || !$this->company->owned_by == auth()->user()->id;
     }
 
     /**
@@ -27,7 +28,7 @@ class ApplyJobRequest extends FormRequest
             // 'uuid'         => 'required',
             // 'user_id'      => 'required',
             // 'job_id'       => 'required',
-            'cover_letter' => 'required',
+            'cover_letter' => 'required|min:10',
             'attachment'   => 'required|file|max:2000|mimes:pdf',
             // 'status'       => 'required'
         ];
