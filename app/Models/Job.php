@@ -60,7 +60,7 @@ class Job extends Model
         abort_if(
             $this->isAppliedByUser || $this->company->owned_by == auth()->user()->id,
             response()->json([
-                'message' => 'Forbidden.'
+                'message' => "Forbidden you can't apply twice."
             ], 403)
         );
     }
