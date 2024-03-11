@@ -64,3 +64,7 @@ php artisan replace-logos:experience
 6. Done
    
 And your setup has been done. Happy Coding.
+
+## Links
+
+[Jobnav Front-end](https://github.com/nnivxix/jobnav)
