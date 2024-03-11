@@ -27,7 +27,7 @@ use App\Http\Controllers\Api\PersonalJobUserController;
 |
 */
 
-// Auth::loginUsingId(5);
+// Auth::loginUsingId(1);
 Route::middleware('auth:sanctum',)->group(function () {
     Route::get('/users', [AuthController::class, 'index'])->name('api.user.current');
     Route::put('/users', [AuthController::class, 'update'])->name('api.user.update');

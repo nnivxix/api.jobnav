@@ -17,9 +17,10 @@ class JobController extends Controller
         $jobs = Job::query()
             ->with('company')
             ->published()
+            ->appliedJobs()
             ->when(auth()->check(), function (Builder $query) {
                 $query->whereHas('company', function (Builder $query) {
-                    $query->where('onwed_by', '!=', auth()->user()->id);
+                    $query->where('owned_by', '!=', auth()->user()->id);
                 });
             })
             ->when($request->has('q'), function (Builder $query) use ($request) {
