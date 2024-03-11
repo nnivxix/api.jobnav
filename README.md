@@ -57,7 +57,7 @@ Please get the [Access Key](https://unsplash.com/oauth/applications/new) from AP
    php artisan replace-images:company
    ```
  ```bash
-   php artisan replace-images:users
+   php artisan replace-image:users
    ```
 
 ```bash
